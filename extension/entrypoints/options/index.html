@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DraMA Spy Settings</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>DraMA Spy Settings</h1>
+      <div class="form-group">
+        <label for="backend-url">Backend URL:</label>
+        <input
+          type="url"
+          id="backend-url"
+          placeholder="http://localhost:3000"
+        />
+        <div class="help-text">Enter your Rails backend server URL</div>
+      </div>
+      <button id="save-btn">Save</button>
+      <span id="message" class="message"></span>
+    </div>
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>
