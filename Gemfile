@@ -60,8 +60,9 @@ group :development do
   gem "faker", require: false
 
   # To provide a quality report of your Ruby code
-  gem "rubycritic", require: false
+  gem "rubycritic", github: "whitesmith/rubycritic", branch: "main", require: false
 
+  # To benchmark the memory usage of different pieces of code
   gem "benchmark-memory"
 end
 
