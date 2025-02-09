@@ -97,6 +97,24 @@ GIT
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
 
+GIT
+  remote: https://github.com/whitesmith/rubycritic.git
+  revision: fd4a1e5602e2a54df38dd5de1d7c15cf0e6d6a96
+  branch: main
+  specs:
+    rubycritic (4.9.1)
+      flay (~> 2.13)
+      flog (~> 4.7)
+      launchy (>= 2.5.2)
+      parser (>= 3.3.0.5)
+      rainbow (~> 3.1.1)
+      reek (~> 6.4.0, < 7.0)
+      rexml
+      ruby_parser (~> 3.21)
+      simplecov (>= 0.22.0)
+      tty-which (~> 0.5.0)
+      virtus (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -355,18 +373,6 @@ GEM
     ruby_parser (3.21.1)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubycritic (4.9.0)
-      flay (~> 2.13)
-      flog (~> 4.7)
-      launchy (>= 2.5.2)
-      parser (>= 3.2.2.1)
-      rainbow (~> 3.1.1)
-      reek (~> 6.0, < 7.0)
-      rexml
-      ruby_parser (~> 3.20)
-      simplecov (>= 0.22.0)
-      tty-which (~> 0.5.0)
-      virtus (~> 2.0)
     rubyzip (2.4.1)
     securerandom (0.4.1)
     selenium-webdriver (4.28.0)
@@ -414,13 +420,13 @@ GEM
     tailwindcss-rails (4.0.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.0.4)
-    tailwindcss-ruby (4.0.4-aarch64-linux-gnu)
-    tailwindcss-ruby (4.0.4-aarch64-linux-musl)
-    tailwindcss-ruby (4.0.4-arm64-darwin)
-    tailwindcss-ruby (4.0.4-x86_64-darwin)
-    tailwindcss-ruby (4.0.4-x86_64-linux-gnu)
-    tailwindcss-ruby (4.0.4-x86_64-linux-musl)
+    tailwindcss-ruby (4.0.5)
+    tailwindcss-ruby (4.0.5-aarch64-linux-gnu)
+    tailwindcss-ruby (4.0.5-aarch64-linux-musl)
+    tailwindcss-ruby (4.0.5-arm64-darwin)
+    tailwindcss-ruby (4.0.5-x86_64-darwin)
+    tailwindcss-ruby (4.0.5-x86_64-linux-gnu)
+    tailwindcss-ruby (4.0.5-x86_64-linux-musl)
     thor (1.3.2)
     thread_safe (0.3.6)
     thruster (0.1.10)
@@ -486,7 +492,7 @@ DEPENDENCIES
   puma (>= 5.0)
   rails!
   rubocop-rails-omakase
-  rubycritic
+  rubycritic!
   selenium-webdriver
   solid_cache
   solid_queue
@@ -499,4 +505,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   2.5.22
+   2.6.3
