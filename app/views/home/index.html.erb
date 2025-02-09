@@ -1,0 +1,17 @@
+<ul>
+<% @dramas.each do |drama| %>
+    <li><%= drama.name %> - <%= drama.last_watched_episode %></li>
+<% end %>
+</ul>
+
+<script type="module">
+	let stats = new Stats();
+	stats.showPanel(0);
+	document.body.appendChild(stats.dom);
+	const animate = () => {
+		stats.begin();
+		stats.end();
+		requestAnimationFrame(animate);
+	}
+	requestAnimationFrame(animate);
+</script>
