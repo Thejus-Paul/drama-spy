@@ -99,7 +99,7 @@ GIT
 
 GIT
   remote: https://github.com/whitesmith/rubycritic.git
-  revision: 98b4c704dc7d87ed5f779c2c868d43756ff4c53d
+  revision: a0b37399acde39ab02c93c8d3c9a7b29be6ae7fb
   branch: main
   specs:
     rubycritic (4.9.1)
@@ -120,7 +120,7 @@ GEM
   specs:
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    ast (2.4.2)
+    ast (2.4.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -245,7 +245,7 @@ GEM
       childprocess (~> 5.0)
       logger (~> 1.6)
     lint_roller (1.1.0)
-    logger (1.6.6)
+    logger (1.7.0)
     loofah (2.24.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -293,7 +293,7 @@ GEM
       racc (~> 1.4)
     ostruct (0.6.1)
     parallel (1.26.3)
-    parser (3.3.7.1)
+    parser (3.3.7.4)
       ast (~> 2.4.1)
       racc
     path_expander (1.1.3)
