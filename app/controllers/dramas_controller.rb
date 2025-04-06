@@ -1,2 +1,0 @@
-class DramasController < ApplicationController
-end
