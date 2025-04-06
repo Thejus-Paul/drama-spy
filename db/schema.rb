@@ -10,33 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_01_12_151454) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_05_155140) do
   create_table "dramas", force: :cascade do |t|
+    t.integer "airing_status", default: 0, null: false
+    t.string "country", null: false
     t.datetime "created_at", null: false
+    t.text "description"
     t.integer "last_watched_episode", default: 0, null: false
     t.string "name", null: false
+    t.integer "total_episodes", default: 1, null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_dramas_on_user_id"
+    t.integer "watch_status", default: 0, null: false
+    t.index ["name"], name: "index_dramas_on_name", unique: true
+    t.index ["watch_status"], name: "index_dramas_on_watch_status"
+    t.check_constraint "last_watched_episode <= total_episodes", name: "last_watched_episode_valid"
   end
-
-  create_table "sessions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "ip_address"
-    t.datetime "updated_at", null: false
-    t.string "user_agent"
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_sessions_on_user_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "email_address", null: false
-    t.string "password_digest", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email_address"], name: "index_users_on_email_address", unique: true
-  end
-
-  add_foreign_key "dramas", "users"
-  add_foreign_key "sessions", "users"
 end
