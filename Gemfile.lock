@@ -99,7 +99,7 @@ GIT
 
 GIT
   remote: https://github.com/whitesmith/rubycritic.git
-  revision: a0b37399acde39ab02c93c8d3c9a7b29be6ae7fb
+  revision: a20ccf12ac645dd065a6b86c0d1d8cca09de507f
   branch: main
   specs:
     rubycritic (4.9.1)
