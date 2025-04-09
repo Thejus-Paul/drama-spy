@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 1dc50194047b6a371dd78b486a247babfaa9f0e0
+  revision: e17dc84e1baeb493296aa961fe997dc8507c10f2
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -99,10 +99,10 @@ GIT
 
 GIT
   remote: https://github.com/whitesmith/rubycritic.git
-  revision: a0b37399acde39ab02c93c8d3c9a7b29be6ae7fb
+  revision: 6e1fa60230dfd47e6f9d4ae361bd8a6fb1e3a207
   branch: main
   specs:
-    rubycritic (4.9.1)
+    rubycritic (4.9.2)
       flay (~> 2.13)
       flog (~> 4.7)
       launchy (>= 2.5.2)
@@ -251,6 +251,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    memory_profiler (1.1.0)
     mini_magick (5.2.0)
       benchmark
       logger
@@ -296,6 +297,7 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.4.0)
+    prosopite (2.1.0)
     psych (5.2.3)
       date
       stringio
@@ -305,6 +307,8 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.12)
+    rack-mini-profiler (3.3.1)
+      rack (>= 1.2.0)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -401,6 +405,7 @@ GEM
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
       ostruct
+    stackprof (0.2.27)
     stringio (3.1.6)
     thor (1.3.2)
     thread_safe (0.3.6)
@@ -447,7 +452,10 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder
   kamal
+  memory_profiler
+  prosopite
   puma (>= 5.0)
+  rack-mini-profiler
   rails!
   rubocop-rails-omakase
   rubycritic!
@@ -455,6 +463,7 @@ DEPENDENCIES
   solid_cache
   solid_queue
   sqlite3 (>= 2.1)
+  stackprof
   thruster
   tzinfo-data
 
