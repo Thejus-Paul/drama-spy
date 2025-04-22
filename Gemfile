@@ -55,13 +55,8 @@ group :development do
   # Fake data generator
   gem "faker", require: false
 
-  # To fix N+1 queries
-  gem "prosopite"
-
-  # Profiler
-  gem "rack-mini-profiler"
-  gem "memory_profiler"
-  gem "stackprof"
+  # A modern profiler for your Rails application.
+  gem "dial"
 end
 
 group :test do
