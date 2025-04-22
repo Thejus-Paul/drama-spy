@@ -17,7 +17,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache and Active Job
 gem "solid_cache"
-gem "solid_queue"
+# gem "solid_queue"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -46,6 +46,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Identify database issues before they hit production.
+  gem "active_record_doctor", github: "gregnavis/active_record_doctor"
 end
 
 group :development do

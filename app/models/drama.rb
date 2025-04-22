@@ -5,7 +5,7 @@ class Drama < ApplicationRecord
 
   validates :airing_status, :country, :name, :watch_status, presence: true
   validates :name, uniqueness: true
-  validates :last_watched_episode, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: :total_episodes }
+  validates :last_watched_episode, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: :total_episodes }
   validates :total_episodes, presence: true, numericality: { greater_than_or_equal_to: 1 }
   validate :last_watched_episode_valid
 
