@@ -46,9 +46,6 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-
-  # Identify database issues before they hit production.
-  gem "active_record_doctor", github: "gregnavis/active_record_doctor"
 end
 
 group :development do
@@ -57,6 +54,9 @@ group :development do
 
   # A modern profiler for your Rails application.
   gem "dial"
+
+  # Identify database issues before they hit production.
+  gem "active_record_doctor", github: "gregnavis/active_record_doctor"
 end
 
 group :test do
