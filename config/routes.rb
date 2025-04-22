@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  mount Dial::Engine, at: "/" if Rails.env.development?
+
   namespace :api do
     namespace :v1, defaults: { format: :json } do
       resources :dramas, only: %i[index create update]

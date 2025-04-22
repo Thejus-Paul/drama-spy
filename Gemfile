@@ -17,7 +17,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache and Active Job
 gem "solid_cache"
-gem "solid_queue"
+# gem "solid_queue"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -52,13 +52,11 @@ group :development do
   # Fake data generator
   gem "faker", require: false
 
-  # To fix N+1 queries
-  gem "prosopite"
+  # A modern profiler for your Rails application.
+  gem "dial"
 
-  # Profiler
-  gem "rack-mini-profiler"
-  gem "memory_profiler"
-  gem "stackprof"
+  # Identify database issues before they hit production.
+  gem "active_record_doctor", github: "gregnavis/active_record_doctor"
 end
 
 group :test do

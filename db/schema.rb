@@ -13,16 +13,17 @@
 ActiveRecord::Schema[8.1].define(version: 2025_04_05_155140) do
   create_table "dramas", force: :cascade do |t|
     t.integer "airing_status", default: 0, null: false
-    t.string "country", null: false
+    t.string "country", limit: 50, null: false
     t.datetime "created_at", null: false
-    t.text "description"
+    t.text "description", limit: 1000
     t.integer "last_watched_episode", default: 0, null: false
-    t.string "name", null: false
+    t.string "name", limit: 100, null: false
     t.integer "total_episodes", default: 1, null: false
     t.datetime "updated_at", null: false
     t.integer "watch_status", default: 0, null: false
     t.index ["name"], name: "index_dramas_on_name", unique: true
     t.index ["watch_status"], name: "index_dramas_on_watch_status"
-    t.check_constraint "last_watched_episode <= total_episodes", name: "last_watched_episode_valid"
+    t.check_constraint "last_watched_episode BETWEEN 0 AND total_episodes", name: "last_watched_episode_range_check"
+    t.check_constraint "total_episodes BETWEEN 1 AND 200", name: "total_episodes_range_check"
   end
 end
