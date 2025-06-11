@@ -9,6 +9,8 @@ CI.run do
   step "Security: Brakeman code analysis", "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"
   step "Tests: Rails", "bin/rails test"
   step "Tests: Seeds", "env RAILS_ENV=test bin/rails db:seed:replant"
+  step "Performance: ActiveRecord doctor", "bin/rails active_record_doctor"
+  step "Quality: Rubycritic", "rubycritic --no-browser -s 95"
 
   # Optional: set a green GitHub commit status to unblock PR merge.
   # Requires the `gh` CLI and and `gh extension install basecamp/gh-signoff`.
