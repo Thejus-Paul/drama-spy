@@ -1,6 +1,6 @@
 # Drama model with required validations
 class Drama < ApplicationRecord
-  MAX_DESCRIPTION_LENGTH = 1000
+  MAX_DESCRIPTION_LENGTH = 2000
   MAX_COUNTRY_LENGTH = 50
   MAX_NAME_LENGTH = 100
   MAX_EPISODE_COUNT = 200
