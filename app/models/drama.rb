@@ -1,21 +1,23 @@
 # Drama model with required validations
 class Drama < ApplicationRecord
-  MAX_DESCRIPTION_LENGTH = 2000
-  MAX_COUNTRY_LENGTH = 50
-  MAX_NAME_LENGTH = 100
-  MAX_EPISODE_COUNT = 200
-  MIN_EPISODE_COUNT = 1
-  MIN_LAST_WATCHED_EPISODE = 0
+  LIMITS = {
+    description: 2000,
+    country: 50,
+    name: 100,
+    max_episodes: 200,
+    min_episodes: 1,
+    min_last_watched: 0
+  }.freeze
 
   enum :airing_status, [ :upcoming, :ongoing, :completed ], default: :upcoming, validate: true
   enum :watch_status, [ :not_started, :watching, :finished ], default: :not_started, validate: true
 
   validates :airing_status, :country, :name, :watch_status, :total_episodes, :last_watched_episode, presence: true
-  validates :description, length: { maximum: MAX_DESCRIPTION_LENGTH }
-  validates :country, length: { maximum: MAX_COUNTRY_LENGTH }
-  validates :name, length: { maximum: MAX_NAME_LENGTH }, uniqueness: true
-  validates :last_watched_episode, numericality: { greater_than_or_equal_to: MIN_LAST_WATCHED_EPISODE, less_than_or_equal_to: :total_episodes }
-  validates :total_episodes, numericality: { only_integer: true, greater_than_or_equal_to: MIN_EPISODE_COUNT, less_than_or_equal_to: MAX_EPISODE_COUNT }
+  validates :description, length: { maximum: LIMITS[:description] }
+  validates :country, length: { maximum: LIMITS[:country] }
+  validates :name, length: { maximum: LIMITS[:name] }, uniqueness: true
+  validates :last_watched_episode, numericality: { greater_than_or_equal_to: LIMITS[:min_last_watched], less_than_or_equal_to: :total_episodes }
+  validates :total_episodes, numericality: { only_integer: true, greater_than_or_equal_to: LIMITS[:min_episodes], less_than_or_equal_to: LIMITS[:max_episodes] }
 
   validate :last_watched_episode_valid, :total_episodes_valid
 
