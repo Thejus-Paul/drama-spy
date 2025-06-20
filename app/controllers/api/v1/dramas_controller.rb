@@ -5,10 +5,17 @@ class Api::V1::DramasController < ApplicationController
   before_action :find_drama, only: :create
   before_action :load_drama, only: :update
   before_action -> { Rails.cache.delete(DRAMA_LIST_CACHE_KEY) }, only: %i[create update]
+  before_action -> { Rails.cache.delete("drama/#{drama_params[:name]}") }, only: :update
 
   def index
-    @dramas = Rails.cache.fetch(DRAMA_LIST_CACHE_KEY, expires_in: 1.day) do
+    @dramas = Rails.cache.fetch(DRAMA_LIST_CACHE_KEY, expires_in: 1.week) do
       Drama.all.load
+    end
+  end
+
+  def show
+    @drama = Rails.cache.fetch("drama/#{params[:name]}", expires_in: 1.year) do
+      Drama.find_by(name: params[:name])
     end
   end
 
