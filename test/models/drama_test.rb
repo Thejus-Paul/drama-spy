@@ -22,10 +22,10 @@ class DramaTest < ActiveSupport::TestCase
   end
 
   test "should enforce country length limit" do
-    @drama.country = "A" * (::Drama::MAX_COUNTRY_LENGTH + 1)
+    assign_overlength(:country, ::Drama::LIMITS[:country])
 
     refute_predicate(@drama, :valid?)
-    assert_equal("Country is too long (maximum is #{::Drama::MAX_COUNTRY_LENGTH} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal("Country is too long (maximum is #{::Drama::LIMITS[:country]} characters)", @drama.errors.full_messages.to_sentence)
   end
 
   test "should require presence of name" do
@@ -33,17 +33,17 @@ class DramaTest < ActiveSupport::TestCase
   end
 
   test "should enforce name length limit" do
-    @drama.name = "A" * (::Drama::MAX_NAME_LENGTH + 1)
+    assign_overlength(:name, ::Drama::LIMITS[:name])
 
     refute_predicate(@drama, :valid?)
-    assert_equal("Name is too long (maximum is #{::Drama::MAX_NAME_LENGTH} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal("Name is too long (maximum is #{::Drama::LIMITS[:name]} characters)", @drama.errors.full_messages.to_sentence)
   end
 
   test "should enforce description length limit" do
-    @drama.description = "A" * (::Drama::MAX_DESCRIPTION_LENGTH + 1)
+    assign_overlength(:description, ::Drama::LIMITS[:description])
 
     refute_predicate(@drama, :valid?)
-    assert_equal("Description is too long (maximum is #{::Drama::MAX_DESCRIPTION_LENGTH} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal("Description is too long (maximum is #{::Drama::LIMITS[:description]} characters)", @drama.errors.full_messages.to_sentence)
   end
 
   test "should require presence of watch_status" do
@@ -112,6 +112,10 @@ class DramaTest < ActiveSupport::TestCase
   end
 
   private
+
+  def assign_overlength(attribute, max_length)
+    @drama.send("#{attribute}=", "A" * (max_length + 1))
+  end
 
   def assert_presence_validation(attribute, expected_message)
     @drama.send("#{attribute}=", nil)

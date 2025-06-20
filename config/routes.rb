@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1, defaults: { format: :json } do
-      resources :dramas, only: %i[index create update]
+      resources :dramas, only: %i[create index update]
+      resources :dramas, only: :show, param: :name
     end
   end
 

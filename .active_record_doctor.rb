@@ -7,7 +7,19 @@ ActiveRecordDoctor.configure do
   ]
 
   global :ignore_models, [
-    # Ignore internal Rails-related models.
-    "SolidCache::Entry"
+    # Ignore SolidCache-related models.
+    "SolidCache::Entry",
+    # SolidQueue-related models
+    "SolidQueue::BlockedExecution",
+    "SolidQueue::ClaimedExecution",
+    "SolidQueue::FailedExecution",
+    "SolidQueue::Job",
+    "SolidQueue::Pause",
+    "SolidQueue::Process",
+    "SolidQueue::ReadyExecution",
+    "SolidQueue::RecurringExecution",
+    "SolidQueue::RecurringTask",
+    "SolidQueue::ScheduledExecution",
+    "SolidQueue::Semaphore"
   ]
 end

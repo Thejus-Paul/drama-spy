@@ -1,5 +1,6 @@
 require "test_helper"
 
+# Tests the API endpoints for managing dramas.
 class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   setup do
     @drama = Drama.create!(
@@ -15,7 +16,22 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   test "should get drama list" do
     get api_v1_dramas_path
 
-    assert_response :success
+    assert_response :ok
+    assert_equal(2, json_body.count)
+  end
+
+  test "should get drama from DB" do
+    get(api_v1_drama_path(@drama.name))
+
+    assert_response :ok
+    assert_equal(@drama.name, json_body[:name])
+  end
+
+    test "should return 404 with error if drama not found" do
+    get(api_v1_drama_path("Nonexistent drama"))
+
+    assert_response :not_found
+    assert_equal("Drama not found", json_body[:error])
   end
 
   test "should create drama" do
