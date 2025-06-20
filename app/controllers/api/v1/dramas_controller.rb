@@ -13,11 +13,13 @@ class Api::V1::DramasController < ApplicationController
     end
   end
 
-  def show
-    @drama = Rails.cache.fetch("drama/#{params[:name]}", expires_in: 1.year) do
-      Drama.find_by(name: params[:name])
-    end
+def show
+  @drama = Rails.cache.fetch("drama/#{params[:name]}", expires_in: 1.year) do
+    Drama.find_by(name: params[:name])
   end
+  render(status: :not_found, json: { error: "Drama not found" }) unless @drama
+end
+
 
   def create
     if @drama.update(drama_params)

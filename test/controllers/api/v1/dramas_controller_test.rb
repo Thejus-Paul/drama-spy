@@ -26,6 +26,13 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     assert_equal(@drama.name, json_body[:name])
   end
 
+    test "should return 404 with error if drama not found" do
+    get(api_v1_drama_path("Nonexistent drama"))
+
+    assert_response :not_found
+    assert_equal("Drama not found", json_body[:error])
+  end
+
   test "should create drama" do
     post(api_v1_dramas_path, params: { drama: {
       name: "New Drama", airing_status: "completed",
