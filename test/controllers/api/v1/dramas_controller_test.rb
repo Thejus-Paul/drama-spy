@@ -1,5 +1,6 @@
 require "test_helper"
 
+# Tests the API endpoints for managing dramas.
 class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   setup do
     @drama = Drama.create!(
