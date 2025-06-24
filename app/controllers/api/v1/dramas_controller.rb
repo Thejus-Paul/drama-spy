@@ -2,31 +2,25 @@
 class Api::V1::DramasController < ApplicationController
   LIST_CACHE_KEY = "drama_list"
 
-  before_action -> { Rails.cache.delete(LIST_CACHE_KEY) }, only: %i[create update]
-  before_action -> { Rails.cache.delete(cache_key(name)) }, only: :update
+  before_action :clear_cache, only: %i[create update]
 
   def index
-    @dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) do
-      Drama.all.load
-    end
+    @dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.all.load }
   end
 
   def show
-    drama = Rails.cache.fetch(cache_key(name), expires_in: 1.year) do
-      Drama.find_by(name:)
-    end
+    drama = Rails.cache.fetch(cache_key(name), expires_in: 1.year) { Drama.find_by(name:) }
+
     render(status: :not_found, json: { error: "Drama not found" }) and return unless drama
 
     render(:show, locals: { drama: })
   end
 
-
   def create
-    drama = Drama.find_or_initialize_by(name: drama_params[:name])
-    success_message = drama.new_record? ? "Created!" : "Updated!"
+    drama = Drama.new(drama_params)
 
-    if drama.update(drama_params)
-      render(status: :ok, json: { notice: success_message })
+    if drama.valid?
+      render(status: :ok, json: { notice: "Created!" })
     else
       render(status: :unprocessable_entity, json: { error: Formatter.error(drama) })
     end
@@ -43,6 +37,8 @@ class Api::V1::DramasController < ApplicationController
   end
 
   private
+
+  def clear_cache = [ LIST_CACHE_KEY, cache_key(name) ].each { |key| Rails.cache.delete(key) }
 
   def cache_key(drama_name) = "drama/#{drama_name}"
 
