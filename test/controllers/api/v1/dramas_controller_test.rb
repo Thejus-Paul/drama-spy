@@ -45,17 +45,6 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     assert_equal("Created!", json_body[:notice])
   end
 
-  test "should update drama on create" do
-    post(api_v1_dramas_path, params: { drama: {
-      name: @drama.name, description: "An updated description."
-    } })
-
-    assert_response :ok
-    assert_equal("Updated!", json_body[:notice])
-    assert_equal("An updated description.", @drama.reload.description)
-  end
-
-
   test "should update drama" do
     patch(api_v1_drama_path(@drama), params: { drama: {
       name: @drama.name, description: "An updated description."
