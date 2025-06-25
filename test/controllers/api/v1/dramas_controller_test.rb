@@ -35,14 +35,21 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create drama" do
-    post(api_v1_dramas_path, params: { drama: {
+    drama = {
       name: "New Drama", airing_status: "completed",
       country: "Korea", description: "A comedy series.",
       last_watched_episode: 10, total_episodes: 15
-    } })
+    }
+
+    post(api_v1_dramas_path, params: { drama: })
 
     assert_response :ok
     assert_equal("Created!", json_body[:notice])
+
+    get(api_v1_drama_path(drama[:name]))
+
+    assert_response :ok
+    assert_equal(drama[:name], json_body[:name])
   end
 
   test "should update drama" do
