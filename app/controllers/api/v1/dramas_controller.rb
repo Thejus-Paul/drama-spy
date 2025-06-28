@@ -11,7 +11,7 @@ class Api::V1::DramasController < ApplicationController
   def show
     drama = Rails.cache.fetch(cache_key(name), expires_in: 1.year) { Drama.find_by(name:) }
 
-    render(status: :not_found, json: { error: "Drama not found" }) and return unless drama
+    render(status: :not_found, json: { status: :error, message: "Drama not found" }) and return unless drama
 
     render(:show, locals: { drama: })
   end
@@ -20,9 +20,9 @@ class Api::V1::DramasController < ApplicationController
     drama = Drama.new(drama_params)
 
     if drama.save
-      render(status: :ok, json: { notice: "Created!" })
+      render(status: :ok, json: { status: :success, message: "Created!" })
     else
-      render(status: :unprocessable_entity, json: { error: Formatter.error(drama) })
+      render(status: :unprocessable_entity, json: { status: :error, message: Formatter.error(drama) })
     end
   end
 
@@ -30,9 +30,9 @@ class Api::V1::DramasController < ApplicationController
     drama = Drama.find_by!(name: drama_params[:name])
 
     if drama.update(drama_params)
-      render(status: :ok, json: { notice: "Updated!" })
+      render(status: :ok, json: { status: :success, message: "Updated!" })
     else
-      render(status: :unprocessable_entity, json: { error: Formatter.error(drama) })
+      render(status: :unprocessable_entity, json: { status: :error, message: Formatter.error(drama) })
     end
   end
 
