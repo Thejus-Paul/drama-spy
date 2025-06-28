@@ -24,6 +24,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     get(api_v1_drama_path(@drama.name))
 
     assert_response :ok
+    assert_equal("success", json_body[:status])
     assert_equal(@drama.name, json_body[:name])
   end
 
@@ -31,7 +32,8 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     get(api_v1_drama_path("Nonexistent drama"))
 
     assert_response :not_found
-    assert_equal("Drama not found", json_body[:error])
+    assert_equal("error", json_body[:status])
+    assert_equal("Drama not found", json_body[:message])
   end
 
   test "should create drama" do
@@ -44,7 +46,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     post(api_v1_dramas_path, params: { drama: })
 
     assert_response :ok
-    assert_equal("Created!", json_body[:notice])
+    assert_equal("Created!", json_body[:message])
 
     get(api_v1_drama_path(drama[:name]))
 
@@ -58,7 +60,8 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     } })
 
     assert_response :ok
-    assert_equal("Updated!", json_body[:notice])
+    assert_equal("success", json_body[:status])
+    assert_equal("Updated!", json_body[:message])
     assert_equal("An updated description.", @drama.reload.description)
   end
 
@@ -66,7 +69,8 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     post(api_v1_dramas_path, params: { drama: { name: "" } })
 
     assert_response :unprocessable_entity
-    assert_equal("Country can't be blank and name can't be blank", json_body[:error])
+    assert_equal("error", json_body[:status])
+    assert_equal("Country can't be blank and name can't be blank", json_body[:message])
   end
 
   private
