@@ -45,7 +45,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
 
     post(api_v1_dramas_path, params: { drama: })
 
-    assert_response :ok
+    assert_response :created
     assert_equal("Created!", json_body[:message])
 
     get(api_v1_drama_path(drama[:name]))

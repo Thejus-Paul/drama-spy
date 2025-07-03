@@ -20,7 +20,7 @@ class Api::V1::DramasController < ApplicationController
     drama = Drama.new(drama_params)
 
     if drama.save
-      render(status: :ok, json: { status: :success, message: "Created!" })
+      render(status: :created, json: { status: :success, message: "Created!" })
     else
       render(status: :unprocessable_entity, json: { status: :error, message: Formatter.error(drama) })
     end
