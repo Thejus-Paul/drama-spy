@@ -66,5 +66,5 @@ group :development do
   gem "faker", require: false
 
   # A modern profiler for your Rails application.
-  gem "dial"
+  gem "dial", require: false
 end
