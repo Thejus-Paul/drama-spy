@@ -5,35 +5,33 @@ class Api::V1::DramasController < ApplicationController
   before_action :clear_cache, only: %i[create update]
 
   def index
-    @dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.all.load }
+    dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.all.load }
+
+    render_json(Drama::IndexResource.new(dramas))
   end
 
   def show
     drama = Rails.cache.fetch(cache_key(name), expires_in: 1.year) { Drama.find_by(name:) }
 
-    render(status: :not_found, json: { status: :error, message: "Drama not found" }) and return unless drama
+    render_error("Drama not found", status: :not_found) and return unless drama
 
-    render(:show, locals: { drama: })
+    render_json(Drama::ShowResource.new(drama))
   end
 
   def create
     drama = Drama.new(drama_params)
 
-    if drama.save
-      render(status: :created, json: { status: :success, message: "Created!" })
-    else
-      render(status: :unprocessable_entity, json: { status: :error, message: Formatter.error(drama) })
-    end
+    render_error(Formatter.error(drama)) and return unless drama.save
+
+    render_success("Created!", status: :created)
   end
 
   def update
     drama = Drama.find_by!(name: drama_params[:name])
 
-    if drama.update(drama_params)
-      render(status: :ok, json: { status: :success, message: "Updated!" })
-    else
-      render(status: :unprocessable_entity, json: { status: :error, message: Formatter.error(drama) })
-    end
+    render_error(Formatter.error(drama)) and return unless drama.update(drama_params)
+
+    render_success("Updated!")
   end
 
   private

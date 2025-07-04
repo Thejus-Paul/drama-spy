@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: b6963db965aa10ef9d63002f3a752cfcb20f0203
+  revision: 58a2187f7b2ac391eba841e9ec6bb1a6d4e486dd
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -130,6 +130,7 @@ GEM
       railties
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    alba (3.7.3)
     ast (2.4.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -257,9 +258,6 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    jbuilder (2.13.0)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
     json (2.12.2)
     kamal (2.7.0)
       activesupport (>= 7.0)
@@ -323,6 +321,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
+    oj (3.16.11)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
     ostruct (0.6.2)
     parallel (1.27.0)
     parser (3.3.8.0)
@@ -364,7 +365,7 @@ GEM
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rainbow (3.1.1)
     rake (13.3.0)
-    rdoc (6.14.1)
+    rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
     reek (6.4.0)
@@ -485,6 +486,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_record_doctor!
+  alba
   bootsnap
   brakeman
   bundler-audit
@@ -492,8 +494,8 @@ DEPENDENCIES
   dial
   faker
   image_processing (~> 1.2)
-  jbuilder
   kamal
+  oj
   puma (>= 5.0)
   rack-cors
   rails!
