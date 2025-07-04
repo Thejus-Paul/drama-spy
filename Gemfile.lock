@@ -130,6 +130,7 @@ GEM
       railties
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
+    alba (3.7.3)
     ast (2.4.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -323,6 +324,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
+    oj (3.16.11)
+      bigdecimal (>= 3.0)
+      ostruct (>= 0.2)
     ostruct (0.6.2)
     parallel (1.27.0)
     parser (3.3.8.0)
@@ -485,6 +489,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_record_doctor!
+  alba
   bootsnap
   brakeman
   bundler-audit
@@ -494,6 +499,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   jbuilder
   kamal
+  oj
   puma (>= 5.0)
   rack-cors
   rails!
