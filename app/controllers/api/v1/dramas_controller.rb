@@ -5,7 +5,9 @@ class Api::V1::DramasController < ApplicationController
   before_action :clear_cache, only: %i[create update]
 
   def index
-    @dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.all.load }
+    dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.all.load }
+
+    render_json(Drama::IndexResource.new(dramas))
   end
 
   def show
@@ -13,7 +15,7 @@ class Api::V1::DramasController < ApplicationController
 
     render_error("Drama not found", status: :not_found) and return unless drama
 
-    render(:show, locals: { drama: })
+    render_json(Drama::ShowResource.new(drama))
   end
 
   def create
