@@ -3,4 +3,6 @@ module ApiResponders
   def render_success(message, status: :ok) = render(status:, json: SuccessResource.new({ message: }).serialize)
 
   def render_error(message, status: :unprocessable_entity) = render(status:, json: ErrorResource.new({ message: }).serialize)
+
+  def render_json(resource, status: :ok) = render(status:, json: resource.serialize)
 end
