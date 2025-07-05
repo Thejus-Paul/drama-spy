@@ -38,6 +38,9 @@ gem "oj"
 # Alba is a JSON serializer for Ruby.
 gem "alba", require: false
 
+# Automatically generates TypeScript interfaces from your Ruby serializers.
+gem "typelizer"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
