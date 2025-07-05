@@ -54,6 +54,12 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
+  # RuboCop plugin for thread safety
+  gem "rubocop-thread_safety", require: false
+
+  # RuboCop plugin for faker
+  gem "rubocop-faker", require: false
+
   # Identify database issues before they hit production.
   gem "active_record_doctor", github: "gregnavis/active_record_doctor"
 
