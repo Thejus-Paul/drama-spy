@@ -1,7 +1,5 @@
 # Used to serialize default error object into a JSON response.
-class ErrorResource
-  include Alba::Resource
-
+class ErrorResource < ApplicationResource
   attribute(:status) { :error }
 
   attributes(:message)
