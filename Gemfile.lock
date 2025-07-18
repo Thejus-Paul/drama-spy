@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 7b96382519b8bdd0156ab63c849728e38039293b
+  revision: 7533bcbcb3a0bc011844dabf1efd3288cc54e5e0
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -103,6 +103,7 @@ GIT
       rackup (>= 1.0.0)
       rake (>= 12.2)
       thor (~> 1.0, >= 1.2.2)
+      tsort (>= 0.2)
       zeitwerk (~> 2.6)
 
 GIT
@@ -286,8 +287,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    mini_magick (5.2.0)
-      benchmark
+    mini_magick (5.3.0)
       logger
     mini_mime (1.1.5)
     minitest (5.25.5)
@@ -378,7 +378,7 @@ GEM
     reline (0.6.1)
       io-console (~> 0.5)
     rexml (3.4.1)
-    rubocop (1.77.0)
+    rubocop (1.78.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -433,20 +433,20 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_queue (1.1.5)
+    solid_queue (1.2.0)
       activejob (>= 7.1)
       activerecord (>= 7.1)
       concurrent-ruby (>= 1.3.1)
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sqlite3 (2.7.1-aarch64-linux-gnu)
-    sqlite3 (2.7.1-aarch64-linux-musl)
-    sqlite3 (2.7.1-arm-linux-gnu)
-    sqlite3 (2.7.1-arm-linux-musl)
-    sqlite3 (2.7.1-arm64-darwin)
-    sqlite3 (2.7.1-x86_64-linux-gnu)
-    sqlite3 (2.7.1-x86_64-linux-musl)
+    sqlite3 (2.7.2-aarch64-linux-gnu)
+    sqlite3 (2.7.2-aarch64-linux-musl)
+    sqlite3 (2.7.2-arm-linux-gnu)
+    sqlite3 (2.7.2-arm-linux-musl)
+    sqlite3 (2.7.2-arm64-darwin)
+    sqlite3 (2.7.2-x86_64-linux-gnu)
+    sqlite3 (2.7.2-x86_64-linux-musl)
     sshkit (1.24.0)
       base64
       logger
@@ -462,6 +462,7 @@ GEM
     thruster (0.1.14-arm64-darwin)
     thruster (0.1.14-x86_64-linux)
     timeout (0.4.3)
+    tsort (0.2.0)
     tty-which (0.5.0)
     typelizer (0.4.1)
       railties (>= 6.0.0)
