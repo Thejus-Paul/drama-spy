@@ -1,0 +1,46 @@
+{
+  "name": "DraMA-Spy",
+  "description": "To keep track of the dramas, manga, light novels and animes that I watch.",
+  "private": true,
+  "scripts": {
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "compile": "tsc --noEmit",
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "format": "prettier -c .",
+    "format:fix": "prettier -w .",
+    "generate-schemas": "tsx ./scripts/generate_schemas.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "postinstall": "wxt prepare",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox"
+  },
+  "type": "module",
+  "version": "0.0.1",
+  "dependencies": {
+    "@webext-core/messaging": "catalog:prod",
+    "camelcase-keys": "catalog:prod",
+    "snakecase-keys": "catalog:prod",
+    "solid-js": "catalog:frontend",
+    "stats.js": "catalog:prod",
+    "up-fetch": "catalog:prod",
+    "valibot": "catalog:prod"
+  },
+  "devDependencies": {
+    "@sinclair/typemap": "catalog:script",
+    "@types/node": "catalog:types",
+    "@types/stats.js": "catalog:types",
+    "@wxt-dev/module-solid": "catalog:build",
+    "eslint": "catalog:lint",
+    "globals": "catalog:lint",
+    "prettier": "catalog:lint",
+    "ts-morph": "catalog:build",
+    "tsx": "catalog:script",
+    "typescript": "catalog:build",
+    "typescript-eslint": "catalog:build",
+    "wxt": "catalog:build"
+  },
+  "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad"
+}
