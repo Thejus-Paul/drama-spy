@@ -37,3 +37,15 @@
 !/app/assets/builds/.keep
 
 /coverage
+
+# Extension
+/extension/node_modules
+/extension/.output
+/extension/stats.html
+/extension/stats-*.json
+/extension/.wxt
+/extension/web-ext.config.ts
+/extension/scripts/
+
+# Editor directories and files
+.DS_Store
