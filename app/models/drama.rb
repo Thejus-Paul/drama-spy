@@ -9,8 +9,8 @@ class Drama < ApplicationRecord
     min_last_watched: 0
   }.freeze
 
-  enum :airing_status, [ :upcoming, :ongoing, :completed ], default: :upcoming, validate: true
-  enum :watch_status, [ :not_started, :watching, :finished ], default: :not_started, validate: true
+  enum :airing_status, %i[ upcoming ongoing completed ], default: :upcoming, validate: true
+  enum :watch_status, %i[ not_started watching finished ], default: :not_started, validate: true
 
   validates :airing_status, :country, :name, :watch_status, :total_episodes, :last_watched_episode, presence: true
   validates :description, length: { maximum: LIMITS[:description] }
