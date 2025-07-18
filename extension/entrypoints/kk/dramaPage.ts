@@ -1,71 +1,11 @@
-import {
-  AiringStatusEnum,
-  StatusEnum,
-  WatchStatusEnum,
-  DramaShow,
-} from "../types";
-import messaging from "./messaging";
+import { AiringStatusEnum, StatusEnum, WatchStatusEnum } from "../../types";
+import { INITIAL_DRAMA_DATA, METADATA_KEYS, SELECTORS } from "./constants";
+import { getDramaSlug, getUpdatedValues, highlightEpisodes } from "./utils";
+import messaging from "../messaging";
 
-const SELECTORS = {
-  footer: "app-footer",
-  title: "mat-card-title",
-  seeker: "mat-slider-progress-bar",
-  description: ".mat-expansion-panel-body > p",
-  episodeButtons: "mat-card-footer > div > button",
-  currentEpisode:
-    ".mat-card-footer > div > button.mat-raised-button.mat-accent",
-  metadata: ".mat-list-item-content",
-};
-
-const METADATA_KEYS = ["country", "airingStatus", "type"] as const;
-
-const getDramaSlug = (name: string) => name.replace(/[\s&()‘',.+:]/g, "-");
-
-const getUpdatedValues = (
-  watchedDrama: DramaShow,
-  drama: Partial<DramaShow>,
-): Partial<DramaShow> => {
-  const updatedDrama: Record<string, string | number> = {};
-  for (const key of Object.keys(watchedDrama)) {
-    if (["status", "watchStatus"].includes(key)) continue;
-    if (
-      drama[key as keyof typeof drama] !==
-      watchedDrama[key as keyof typeof watchedDrama]
-    ) {
-      updatedDrama[key] = drama[key as keyof typeof drama] ?? "";
-    }
-  }
-  updatedDrama.id = watchedDrama.id;
-  updatedDrama.name = drama.name ?? watchedDrama.name;
-  return updatedDrama;
-};
-
-const highlightEpisodes = (
-  episodes: NodeListOf<HTMLElement>,
-  currentEpisode: number,
-) => {
-  episodes.forEach((episodeElement) => {
-    const episodeNum = parseInt(episodeElement.innerText, 10);
-    if (episodeNum <= currentEpisode) {
-      episodeElement.style.backgroundColor = "lightgreen";
-      episodeElement.style.color = "black";
-    } else {
-      episodeElement.classList.add("mat-warn");
-    }
-  });
-};
-
-const setDrama = async () => {
+const dramaPage = async () => {
   document.querySelector(SELECTORS.footer)?.remove();
-
-  const drama: Partial<DramaShow> = Object.seal({
-    lastWatchedEpisode: 0,
-    name: "",
-    description: "",
-    totalEpisodes: 0,
-    country: "",
-    airingStatus: AiringStatusEnum.upcoming,
-  });
+  const drama = INITIAL_DRAMA_DATA;
 
   // Setup interval check for episode completion
   setInterval(
@@ -147,11 +87,4 @@ const setDrama = async () => {
   if (currentEpisode > 0) highlightEpisodes(episodes, currentEpisode);
 };
 
-const DRAMA_PAGE = new MatchPattern(
-  atob("aHR0cHM6Ly8qLmtpc3NraC5vdmgvRHJhbWEvKg=="),
-);
-const router = (url: URL | string) => {
-  if (DRAMA_PAGE.includes(url)) setDrama();
-};
-
-export default { router, setDrama };
+export default dramaPage;
