@@ -73,9 +73,9 @@ const dramaPage = async () => {
   const isAiring = drama.airingStatus !== AiringStatusEnum.completed;
 
   if (isTv && isUnwatched && (isInProgress || isAiring)) {
-    const updated = getUpdatedValues(watchedDrama, drama);
-    const updatedDrama = { ...updated, lastWatchedEpisode: currentEpisode };
-    await messaging.sendMessage("updateDrama", updatedDrama);
+    const changes = getUpdatedValues(watchedDrama, drama);
+    const updatedValues = { ...changes, lastWatchedEpisode: currentEpisode };
+    await messaging.sendMessage("updateDrama", updatedValues);
   }
 
   if (!currentEpisode) currentEpisode = lastWatched;
