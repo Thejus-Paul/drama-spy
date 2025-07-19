@@ -25,11 +25,8 @@ const dramaPage = async () => {
   const browserSlug = window.location.pathname.replace("/Drama/", "");
   const dramaSlug = getDramaSlug(drama.name);
   if (browserSlug !== dramaSlug) {
-    window.history.replaceState(
-      {},
-      "",
-      window.location.href.replace(browserSlug, dramaSlug),
-    );
+    const newUrl = window.location.href.replace(browserSlug, dramaSlug);
+    window.history.replaceState({}, "", newUrl);
     return;
   }
 
@@ -63,10 +60,8 @@ const dramaPage = async () => {
   const isTv = dramaType === "TVSeries";
   const watchedDrama = await messaging.sendMessage("getDrama", drama.name);
   if (watchedDrama.status === StatusEnum.error && isTv) {
-    await messaging.sendMessage("createDrama", {
-      ...drama,
-      lastWatchedEpisode: currentEpisode,
-    });
+    const newDrama = { ...drama, lastWatchedEpisode: currentEpisode };
+    await messaging.sendMessage("createDrama", newDrama);
     return;
   }
 
@@ -79,10 +74,8 @@ const dramaPage = async () => {
 
   if (isTv && isUnwatched && (isInProgress || isAiring)) {
     const updated = getUpdatedValues(watchedDrama, drama);
-    await messaging.sendMessage("updateDrama", {
-      ...updated,
-      lastWatchedEpisode: currentEpisode,
-    });
+    const updatedDrama = { ...updated, lastWatchedEpisode: currentEpisode };
+    await messaging.sendMessage("updateDrama", updatedDrama);
   }
 
   if (!currentEpisode) currentEpisode = lastWatched;
