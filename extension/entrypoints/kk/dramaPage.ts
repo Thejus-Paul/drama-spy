@@ -1,5 +1,10 @@
 import { AiringStatusEnum, StatusEnum, WatchStatusEnum } from "../../types";
-import { INITIAL_DRAMA_DATA, METADATA_KEYS, SELECTORS } from "./constants";
+import {
+  INITIAL_DRAMA_DATA,
+  METADATA_KEYS,
+  ONE_MINUTE_DELAY,
+  SELECTORS,
+} from "./constants";
 import { getDramaSlug, getUpdatedValues, highlightEpisodes } from "./utils";
 import messaging from "../messaging";
 
@@ -8,14 +13,11 @@ const dramaPage = async () => {
   const drama = INITIAL_DRAMA_DATA;
 
   // Setup interval check for episode completion
-  setInterval(
-    () => {
-      const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
-      const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
-      if (value >= 75) messaging.sendMessage("up");
-    },
-    5 * 60 * 1_000,
-  );
+  setInterval(() => {
+    const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
+    const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
+    if (value >= 75) messaging.sendMessage("up");
+  }, ONE_MINUTE_DELAY);
 
   const nameElement = document.querySelector<HTMLElement>(SELECTORS.title);
   drama.name = nameElement?.innerText ?? "";
@@ -23,11 +25,8 @@ const dramaPage = async () => {
   const browserSlug = window.location.pathname.replace("/Drama/", "");
   const dramaSlug = getDramaSlug(drama.name);
   if (browserSlug !== dramaSlug) {
-    window.history.replaceState(
-      {},
-      "",
-      window.location.href.replace(browserSlug, dramaSlug),
-    );
+    const newUrl = window.location.href.replace(browserSlug, dramaSlug);
+    window.history.replaceState({}, "", newUrl);
     return;
   }
 
@@ -58,13 +57,11 @@ const dramaPage = async () => {
     else drama[key] = value;
   });
 
-  const isTv = dramaType === "TVSeries";
+  const isTvSeries = dramaType === "TVSeries";
   const watchedDrama = await messaging.sendMessage("getDrama", drama.name);
-  if (watchedDrama.status === StatusEnum.error && isTv) {
-    await messaging.sendMessage("createDrama", {
-      ...drama,
-      lastWatchedEpisode: currentEpisode,
-    });
+  if (watchedDrama.status === StatusEnum.error && isTvSeries) {
+    const newDrama = { ...drama, lastWatchedEpisode: currentEpisode };
+    await messaging.sendMessage("createDrama", newDrama);
     return;
   }
 
@@ -75,12 +72,10 @@ const dramaPage = async () => {
   const isInProgress = watchedDrama.watchStatus !== WatchStatusEnum.finished;
   const isAiring = drama.airingStatus !== AiringStatusEnum.completed;
 
-  if (isTv && isUnwatched && (isInProgress || isAiring)) {
-    const updated = getUpdatedValues(watchedDrama, drama);
-    await messaging.sendMessage("updateDrama", {
-      ...updated,
-      lastWatchedEpisode: currentEpisode,
-    });
+  if (isTvSeries && isUnwatched && (isInProgress || isAiring)) {
+    const changes = getUpdatedValues(watchedDrama, drama);
+    const updatedValues = { ...changes, lastWatchedEpisode: currentEpisode };
+    await messaging.sendMessage("updateDrama", updatedValues);
   }
 
   if (!currentEpisode) currentEpisode = lastWatched;
