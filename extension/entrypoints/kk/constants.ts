@@ -25,3 +25,5 @@ export const INITIAL_DRAMA_DATA: Partial<DramaShow> = Object.seal({
   country: "",
   airingStatus: AiringStatusEnum.upcoming,
 });
+
+export const ONE_MINUTE_DELAY = 60 * 1000;

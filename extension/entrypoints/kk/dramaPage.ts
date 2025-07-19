@@ -1,5 +1,10 @@
 import { AiringStatusEnum, StatusEnum, WatchStatusEnum } from "../../types";
-import { INITIAL_DRAMA_DATA, METADATA_KEYS, SELECTORS } from "./constants";
+import {
+  INITIAL_DRAMA_DATA,
+  METADATA_KEYS,
+  ONE_MINUTE_DELAY,
+  SELECTORS,
+} from "./constants";
 import { getDramaSlug, getUpdatedValues, highlightEpisodes } from "./utils";
 import messaging from "../messaging";
 
@@ -8,14 +13,11 @@ const dramaPage = async () => {
   const drama = INITIAL_DRAMA_DATA;
 
   // Setup interval check for episode completion
-  setInterval(
-    () => {
-      const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
-      const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
-      if (value >= 75) messaging.sendMessage("up");
-    },
-    5 * 60 * 1_000,
-  );
+  setInterval(() => {
+    const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
+    const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
+    if (value >= 75) messaging.sendMessage("up");
+  }, ONE_MINUTE_DELAY);
 
   const nameElement = document.querySelector<HTMLElement>(SELECTORS.title);
   drama.name = nameElement?.innerText ?? "";
