@@ -57,9 +57,9 @@ const dramaPage = async () => {
     else drama[key] = value;
   });
 
-  const isTv = dramaType === "TVSeries";
+  const isTvSeries = dramaType === "TVSeries";
   const watchedDrama = await messaging.sendMessage("getDrama", drama.name);
-  if (watchedDrama.status === StatusEnum.error && isTv) {
+  if (watchedDrama.status === StatusEnum.error && isTvSeries) {
     const newDrama = { ...drama, lastWatchedEpisode: currentEpisode };
     await messaging.sendMessage("createDrama", newDrama);
     return;
@@ -72,7 +72,7 @@ const dramaPage = async () => {
   const isInProgress = watchedDrama.watchStatus !== WatchStatusEnum.finished;
   const isAiring = drama.airingStatus !== AiringStatusEnum.completed;
 
-  if (isTv && isUnwatched && (isInProgress || isAiring)) {
+  if (isTvSeries && isUnwatched && (isInProgress || isAiring)) {
     const changes = getUpdatedValues(watchedDrama, drama);
     const updatedValues = { ...changes, lastWatchedEpisode: currentEpisode };
     await messaging.sendMessage("updateDrama", updatedValues);
