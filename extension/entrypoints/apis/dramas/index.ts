@@ -12,7 +12,7 @@ import { SuccessSchema } from "./schemas/SuccessSchema";
 import camelcaseKeys from "camelcase-keys";
 import snakecaseKeys from "snakecase-keys";
 import { up } from "up-fetch";
-import { variant } from "valibot";
+import { array, variant } from "valibot";
 
 const upfetch = up(fetch, () => ({
   baseUrl: API_V1_URL,
@@ -42,7 +42,7 @@ const upfetch = up(fetch, () => ({
   },
 }));
 
-const index = () => upfetch("/dramas", { schema: DramaIndexSchema });
+const index = () => upfetch("/dramas", { schema: array(DramaIndexSchema) });
 
 const show = (name: string) =>
   upfetch(`/dramas/${name}`, {
