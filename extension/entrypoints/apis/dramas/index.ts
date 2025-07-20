@@ -33,7 +33,8 @@ const upfetch = up(fetch, () => ({
     attempts: RETRY_ATTEMPTS,
     delay: ({ attempt }) =>
       Math.min(Math.log2(attempt + OFFSET) * RETRY_DELAY, RETRY_MAX_DELAY),
-    when: ({ response }) => !response || response.status === ERROR_CODES.NOT_FOUND,
+    when: ({ response }) =>
+      !response || response.status === ERROR_CODES.NOT_FOUND,
   },
   serializeBody: (body: Record<string, string | number>) => {
     if (body && typeof body === "object") {

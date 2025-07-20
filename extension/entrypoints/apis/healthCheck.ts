@@ -20,7 +20,8 @@ const upfetch = up(fetch, () => ({
     attempts: Infinity,
     delay: ({ attempt }) =>
       Math.min(Math.log2(attempt + OFFSET) * RETRY_DELAY, RETRY_MAX_DELAY),
-    when: ({ response }) => !response || response.status === ERROR_CODES.INTERNAL_SERVER_ERROR,
+    when: ({ response }) =>
+      !response || response.status === ERROR_CODES.INTERNAL_SERVER_ERROR,
   },
 }));
 

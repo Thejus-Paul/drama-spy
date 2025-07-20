@@ -14,4 +14,7 @@ export const RETRY_DELAY: number = 2_000;
 // 10 seconds max delay between retries
 export const RETRY_MAX_DELAY: number = 10_000;
 
-export const ERROR_CODES = { NOT_FOUND: 404, INTERNAL_SERVER_ERROR: 500 } as const;
+export const ERROR_CODES = {
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+} as const;
