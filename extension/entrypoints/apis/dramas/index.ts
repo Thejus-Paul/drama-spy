@@ -1,5 +1,6 @@
 import {
   API_V1_URL,
+  ERROR_CODES,
   OFFSET,
   RETRY_ATTEMPTS,
   RETRY_DELAY,
@@ -12,7 +13,7 @@ import { SuccessSchema } from "./schemas/SuccessSchema";
 import camelcaseKeys from "camelcase-keys";
 import snakecaseKeys from "snakecase-keys";
 import { up } from "up-fetch";
-import { variant } from "valibot";
+import { array, variant } from "valibot";
 
 const upfetch = up(fetch, () => ({
   baseUrl: API_V1_URL,
@@ -32,7 +33,8 @@ const upfetch = up(fetch, () => ({
     attempts: RETRY_ATTEMPTS,
     delay: ({ attempt }) =>
       Math.min(Math.log2(attempt + OFFSET) * RETRY_DELAY, RETRY_MAX_DELAY),
-    when: ({ response }) => !response || response.status === 404,
+    when: ({ response }) =>
+      !response || response.status === ERROR_CODES.NOT_FOUND,
   },
   serializeBody: (body: Record<string, string | number>) => {
     if (body && typeof body === "object") {
@@ -42,7 +44,7 @@ const upfetch = up(fetch, () => ({
   },
 }));
 
-const index = () => upfetch("/dramas", { schema: DramaIndexSchema });
+const index = () => upfetch("/dramas", { schema: array(DramaIndexSchema) });
 
 const show = (name: string) =>
   upfetch(`/dramas/${name}`, {

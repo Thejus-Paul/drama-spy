@@ -1,24 +1,31 @@
-# README
+# DraMA Spy
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A lightweight, open-source tracker that remembers where you left off in every drama you watch.
+If you constantly pause mid-season and return months later, DraMA Spy saves the exact episode so you never have to scrub through old notes or history to pick things back up.
 
-Things you may want to cover:
+## 🛠️ Tech Stack
 
-* Ruby version
+- **Frontend**: Solid.js
+- **Backend**: Ruby on Rails
+- **Database**: SQLite
+- **Authentication**: None
+- **Deployment**: Docker
 
-* System dependencies
+## 📦 Installation
 
-* Configuration
+1. Clone the repository.
+    ```sh
+    git clone https://github.com/Thejus-Paul/drama-spy.git
+    cd drama-spy
+    ```
 
-* Database creation
+2. Setup backend.
+    ```sh
+    ./bin/setup
+    ```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+3. Setup extension.
+    ```sh
+    cd extension
+    pnpm install
+    ```

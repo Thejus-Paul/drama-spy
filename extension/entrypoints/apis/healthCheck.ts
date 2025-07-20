@@ -2,8 +2,8 @@ import { up } from "up-fetch";
 
 import {
   APP_URL,
+  ERROR_CODES,
   OFFSET,
-  RETRY_ATTEMPTS,
   RETRY_DELAY,
   RETRY_MAX_DELAY,
 } from "@/src/constants";
@@ -17,10 +17,11 @@ const upfetch = up(fetch, () => ({
   },
   mode: "cors",
   retry: {
-    attempts: RETRY_ATTEMPTS,
+    attempts: Infinity,
     delay: ({ attempt }) =>
       Math.min(Math.log2(attempt + OFFSET) * RETRY_DELAY, RETRY_MAX_DELAY),
-    when: ({ response }) => !response || response.status === 500,
+    when: ({ response }) =>
+      !response || response.status === ERROR_CODES.INTERNAL_SERVER_ERROR,
   },
 }));
 
