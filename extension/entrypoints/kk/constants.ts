@@ -13,10 +13,6 @@ export const SELECTORS = {
 
 export const METADATA_KEYS = ["country", "airingStatus", "type"] as const;
 
-export const DRAMA_PAGE = new MatchPattern(
-  atob("aHR0cHM6Ly8qLmtpc3NraC5vdmgvRHJhbWEvKg=="),
-);
-
 export const INITIAL_DRAMA_DATA: Partial<DramaShow> = Object.seal({
   lastWatchedEpisode: 0,
   name: "",

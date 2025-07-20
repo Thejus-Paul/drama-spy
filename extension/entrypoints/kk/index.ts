@@ -1,8 +1,11 @@
-import { DRAMA_PAGE } from "./constants";
+import messaging from "../messaging";
 import dramaPage from "./dramaPage";
+import homePage from "./homePage";
 
-const router = (url: URL | string) => {
-  if (DRAMA_PAGE.includes(url)) dramaPage();
+const router = (url: URL) => {
+  if (url.pathname.startsWith("/Drama/")) dramaPage();
+  else if (url.pathname === "/") homePage();
+  else messaging.sendMessage("up");
 };
 
 export default { router };
