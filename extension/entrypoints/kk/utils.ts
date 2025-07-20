@@ -28,7 +28,7 @@ const highlightEpisodes = (
   episodes.forEach((episodeElement) => {
     const episodeNum = parseInt(episodeElement.innerText, 10);
     if (episodeNum <= currentEpisode) {
-      episodeElement.style.backgroundColor = "lightgreen";
+      episodeElement.style.backgroundColor = "springgreen";
       episodeElement.style.color = "black";
     } else {
       episodeElement.classList.add("mat-warn");
