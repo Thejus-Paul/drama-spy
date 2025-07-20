@@ -1,5 +1,6 @@
 import {
   API_V1_URL,
+  ERROR_CODES,
   OFFSET,
   RETRY_ATTEMPTS,
   RETRY_DELAY,
@@ -32,7 +33,7 @@ const upfetch = up(fetch, () => ({
     attempts: RETRY_ATTEMPTS,
     delay: ({ attempt }) =>
       Math.min(Math.log2(attempt + OFFSET) * RETRY_DELAY, RETRY_MAX_DELAY),
-    when: ({ response }) => !response || response.status === 404,
+    when: ({ response }) => !response || response.status === ERROR_CODES.NOT_FOUND,
   },
   serializeBody: (body: Record<string, string | number>) => {
     if (body && typeof body === "object") {
