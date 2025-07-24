@@ -5,7 +5,7 @@ class Api::V1::DramasController < ApplicationController
   before_action :clear_cache, only: %i[create update]
 
   def index
-    dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.all.load }
+    dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.in_progress_first.load }
 
     render_json(Drama::IndexResource.new(dramas))
   end

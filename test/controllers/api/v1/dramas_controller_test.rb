@@ -17,7 +17,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     get api_v1_dramas_path
 
     assert_response :ok
-    assert_equal(2, json_body.count)
+    assert_equal(1, json_body.count)
   end
 
   test "should get drama from DB" do
