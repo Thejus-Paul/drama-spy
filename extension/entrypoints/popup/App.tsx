@@ -1,9 +1,12 @@
-import { createSignal } from "solid-js";
+import { createResource, For } from "solid-js";
 import "./App.css";
 import Stats from "stats.js";
+import Dramas from "../apis/dramas";
 
-function App() {
-  const [count, setCount] = createSignal(0);
+const getDramas = async () => await Dramas.index();
+
+const App = () => {
+  const [dramas] = createResource(getDramas);
 
   const stats = new Stats();
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -20,13 +23,20 @@ function App() {
   return (
     <>
       <h1>DraMA Spy</h1>
-      <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count()}
-        </button>
+      <div class="drama-list">
+        <For each={dramas()} fallback={<div>Loading...</div>}>
+          {({ name, lastWatchedEpisode }) => (
+            <div class="drama-card">
+              <span>{name}</span>
+              <span>
+                Stopped at episode <strong>{lastWatchedEpisode}</strong>
+              </span>
+            </div>
+          )}
+        </For>
       </div>
     </>
   );
-}
+};
 
 export default App;
