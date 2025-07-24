@@ -9,6 +9,8 @@ class Drama < ApplicationRecord
     min_last_watched: 0
   }.freeze
 
+  scope :in_progress_first, -> { where.not(watch_status: :not_started).order(:watch_status, updated_at: :desc) }
+
   enum :airing_status, %i[ upcoming ongoing completed ], default: :upcoming, validate: true
   enum :watch_status, %i[ not_started watching finished ], default: :not_started, validate: true
 
