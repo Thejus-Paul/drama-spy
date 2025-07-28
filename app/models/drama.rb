@@ -9,23 +9,41 @@ class Drama < ApplicationRecord
     min_last_watched: 0
   }.freeze
 
-  scope :in_progress_first, -> { where.not(watch_status: :not_started).order(:watch_status, updated_at: :desc) }
+  scope :in_progress_first, -> {
+    where.not(watch_status: :not_started).order(:watch_status, updated_at: :desc)
+  }
 
   enum :airing_status, %i[ upcoming ongoing completed ], default: :upcoming, validate: true
   enum :watch_status, %i[ not_started watching finished ], default: :not_started, validate: true
 
-  validates :airing_status, :country, :name, :watch_status, :total_episodes, :last_watched_episode, presence: true
+  validates :airing_status, :country, :name, :watch_status, :total_episodes,
+            :last_watched_episode, :metadata, presence: true
   validates :description, length: { maximum: LIMITS[:description] }
   validates :country, length: { maximum: LIMITS[:country] }
   validates :name, length: { maximum: LIMITS[:name] }, uniqueness: true
-  validates :last_watched_episode, numericality: { greater_than_or_equal_to: LIMITS[:min_last_watched], less_than_or_equal_to: :total_episodes }
-  validates :total_episodes, numericality: { only_integer: true, greater_than_or_equal_to: LIMITS[:min_episodes], less_than_or_equal_to: LIMITS[:max_episodes] }
+  validates :last_watched_episode,
+            numericality: {
+              greater_than_or_equal_to: LIMITS[:min_last_watched],
+              less_than_or_equal_to: :total_episodes
+            }
+  validates :total_episodes,
+            numericality: {
+              only_integer: true,
+              greater_than_or_equal_to: LIMITS[:min_episodes],
+              less_than_or_equal_to: LIMITS[:max_episodes]
+            }
 
-  validate :last_watched_episode_valid, :total_episodes_valid
+  validate :last_watched_episode_valid, :total_episodes_valid, :metadata_valid
 
+  before_validation :ensure_metadata_present
   before_save :update_watch_status
 
   private
+
+  def ensure_metadata_present
+    self.metadata = {} if metadata.nil?
+    def metadata.blank? = false
+  end
 
   def last_watched_episode_valid
     return unless last_watched_episode.present? && total_episodes.present?
@@ -50,6 +68,18 @@ class Drama < ApplicationRecord
       self.watch_status = :watching
     else
       self.watch_status = :not_started
+    end
+  end
+
+         def metadata_valid
+    unless metadata.is_a?(Hash)
+      errors.add(:metadata, "must be a valid JSON object")
+      return
+    end
+
+    # Validate metadata size (prevent abuse)
+    if metadata.to_json.bytesize > 10_000 # 10KB limit
+      errors.add(:metadata, "is too large (maximum 10KB)")
     end
   end
 end
