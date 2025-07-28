@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 08b54b95a177511756fdb407f381bc5ec4bbdcdb
+  revision: 46d2afa1ccffb46afdeeea0a484115f32f01aca7
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -259,7 +259,7 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (2.13.1)
+    json (2.13.2)
     kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -326,7 +326,7 @@ GEM
       ostruct (>= 0.2)
     ostruct (0.6.3)
     parallel (1.27.0)
-    parser (3.3.8.0)
+    parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
     path_expander (1.1.3)
