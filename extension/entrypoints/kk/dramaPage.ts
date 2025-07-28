@@ -58,9 +58,19 @@ const dramaPage = async () => {
   });
 
   const isTvSeries = dramaType === "TVSeries";
+
+  // Extract query parameters and prepare metadata
+  const urlParams = new URLSearchParams(window.location.search);
+  const queryId = urlParams.get("id");
+  const dramaMetadata = { ...(queryId && { id: queryId }) };
+
   const watchedDrama = await messaging.sendMessage("getDrama", drama.name);
   if (watchedDrama.status === StatusEnum.error && isTvSeries) {
-    const newDrama = { ...drama, lastWatchedEpisode: currentEpisode };
+    const newDrama = {
+      ...drama,
+      lastWatchedEpisode: currentEpisode,
+      metadata: dramaMetadata,
+    };
     await messaging.sendMessage("createDrama", newDrama);
     return;
   }
@@ -74,7 +84,11 @@ const dramaPage = async () => {
 
   if (isTvSeries && isUnwatched && (isInProgress || isAiring)) {
     const changes = getUpdatedValues(watchedDrama, drama);
-    const updatedValues = { ...changes, lastWatchedEpisode: currentEpisode };
+    const updatedValues = {
+      ...changes,
+      lastWatchedEpisode: currentEpisode,
+      metadata: dramaMetadata,
+    };
     await messaging.sendMessage("updateDrama", updatedValues);
   }
 
