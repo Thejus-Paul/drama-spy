@@ -42,5 +42,7 @@ class Api::V1::DramasController < ApplicationController
 
   def name = params[:name] || drama_params[:name]
 
-  def drama_params = params.expect(drama: %i[airing_status country description last_watched_episode name total_episodes])
+  def drama_params
+    params.expect(drama: [ :airing_status, :country, :description, :last_watched_episode, :name, :total_episodes, { metadata: {} } ])
+  end
 end
