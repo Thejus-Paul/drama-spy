@@ -9,7 +9,8 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
       country: "Japan",
       description: "A mystery drama.",
       last_watched_episode: 5,
-      total_episodes: 20
+      total_episodes: 20,
+      metadata: {}
     )
   end
 
@@ -40,7 +41,8 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     drama = {
       name: "New Drama", airing_status: "completed",
       country: "Korea", description: "A comedy series.",
-      last_watched_episode: 10, total_episodes: 15
+      last_watched_episode: 10, total_episodes: 15,
+      metadata: {}
     }
 
     post(api_v1_dramas_path, params: { drama: })
