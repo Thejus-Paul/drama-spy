@@ -11,4 +11,5 @@ one:
   description: null
   total_episodes: 12
   airing_status: "completed"
+  metadata: {}
 

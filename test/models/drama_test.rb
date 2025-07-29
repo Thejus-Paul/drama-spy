@@ -111,6 +111,69 @@ class DramaTest < ActiveSupport::TestCase
     assert_equal("finished", @drama.watch_status)
   end
 
+  test "should convert nil metadata to empty hash before validation" do
+    @drama.metadata = nil
+    @drama.valid? # trigger validations
+
+    assert_equal({}, @drama.metadata)
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should accept valid metadata as hash" do
+    @drama.metadata = { "id" => "123", "source" => "query_param" }
+
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should reject metadata that is not a hash" do
+    @drama.metadata = "invalid_string"
+
+    refute_predicate(@drama, :valid?)
+    assert_includes(@drama.errors.full_messages, "Metadata must be a valid JSON object")
+  end
+
+  test "should reject metadata that is too large" do
+    large_metadata = { "data" => "x" * 15_000 } # Over 10KB limit
+    @drama.metadata = large_metadata
+
+    refute_predicate(@drama, :valid?)
+    assert_includes(@drama.errors.full_messages, "Metadata is too large (maximum 10KB)")
+  end
+
+  test "should allow empty metadata hash" do
+    @drama.metadata = {}
+
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should persist metadata correctly" do
+    metadata = { "id" => "drama123", "source" => "query_param", "timestamp" => Time.current.to_s }
+    @drama.metadata = metadata
+    @drama.save!
+
+    @drama.reload
+    assert_equal(metadata["id"], @drama.metadata["id"])
+    assert_equal(metadata["source"], @drama.metadata["source"])
+    assert_equal(metadata["timestamp"], @drama.metadata["timestamp"])
+  end
+
+  test "should handle nested metadata structure" do
+    nested_metadata = {
+      "id" => "123",
+      "source" => "query_param",
+      "additional_data" => {
+        "user_agent" => "Chrome",
+        "referrer" => "google.com"
+      }
+    }
+    @drama.metadata = nested_metadata
+    @drama.save!
+
+    @drama.reload
+    assert_equal("Chrome", @drama.metadata["additional_data"]["user_agent"])
+    assert_equal("google.com", @drama.metadata["additional_data"]["referrer"])
+  end
+
   private
 
   def assign_overlength(attribute, max_length)
