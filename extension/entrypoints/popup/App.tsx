@@ -2,6 +2,7 @@ import { createResource, For } from "solid-js";
 import "./App.css";
 import Stats from "stats.js";
 import Dramas from "../apis/dramas";
+import { getDramaLink, isString } from "./utils";
 
 const getDramas = async () => await Dramas.index();
 
@@ -25,12 +26,19 @@ const App = () => {
       <h1>DraMA Spy</h1>
       <div class="drama-list">
         <For each={dramas()} fallback={<div>Loading...</div>}>
-          {({ name, lastWatchedEpisode }) => (
+          {({ name, lastWatchedEpisode, metadata }) => (
             <div class="drama-card">
-              <span>{name}</span>
-              <span>
-                Stopped at episode <strong>{lastWatchedEpisode}</strong>
-              </span>
+              <div>
+                <strong>{name}</strong>&nbsp;
+                <span>
+                  stopped at episode <strong>{lastWatchedEpisode}</strong>
+                </span>
+              </div>
+              {isString(metadata.id) && (
+                <a href={getDramaLink(name, metadata.id)} target="_blank">
+                  Continue watching
+                </a>
+              )}
             </div>
           )}
         </For>

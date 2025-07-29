@@ -1,0 +1,1 @@
+export const KK_DOMAIN = atob("aHR0cHM6Ly9raXNza2gub3Zo");
