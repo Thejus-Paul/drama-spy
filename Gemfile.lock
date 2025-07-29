@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 46d2afa1ccffb46afdeeea0a484115f32f01aca7
+  revision: 40a3f2fedc12e70750e2b14ad096c135e7bb1df7
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -108,7 +108,7 @@ GIT
 
 GIT
   remote: https://github.com/whitesmith/rubycritic.git
-  revision: 65e5be47bce80627858164980e09b9707f650f47
+  revision: 27f305f379ba9bf387ac717b7948de42884c8732
   branch: main
   specs:
     rubycritic (4.9.2)
@@ -117,7 +117,7 @@ GIT
       launchy (>= 2.5.2)
       parser (>= 3.3.0.5)
       rainbow (~> 3.1.1)
-      reek (~> 6.4.0, < 7.0)
+      reek (~> 6.5.0, < 7.0)
       rexml
       ruby_parser (~> 3.21)
       simplecov (>= 0.22.0)
@@ -187,13 +187,13 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
-    dry-schema (1.13.4)
+    dry-schema (1.14.1)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 1.0, >= 1.0.1)
-      dry-core (~> 1.0, < 2)
-      dry-initializer (~> 3.0)
-      dry-logic (>= 1.4, < 2)
-      dry-types (>= 1.7, < 2)
+      dry-core (~> 1.1)
+      dry-initializer (~> 3.2)
+      dry-logic (~> 1.5)
+      dry-types (~> 1.8)
       zeitwerk (~> 2.6)
     dry-types (1.8.3)
       bigdecimal (~> 3.0)
@@ -368,8 +368,8 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    reek (6.4.0)
-      dry-schema (~> 1.13.0)
+    reek (6.5.0)
+      dry-schema (~> 1.13)
       logger (~> 1.6)
       parser (~> 3.3.0)
       rainbow (>= 2.0, < 4.0)

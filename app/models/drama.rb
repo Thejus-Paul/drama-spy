@@ -71,7 +71,7 @@ class Drama < ApplicationRecord
     end
   end
 
-         def metadata_valid
+  def metadata_valid
     unless metadata.is_a?(Hash)
       errors.add(:metadata, "must be a valid JSON object")
       return
