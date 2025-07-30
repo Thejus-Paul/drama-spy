@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_28_171541) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_30_015311) do
   create_table "dramas", force: :cascade do |t|
     t.integer "airing_status", default: 0, null: false
     t.string "country", limit: 50, null: false
@@ -19,6 +19,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_28_171541) do
     t.integer "last_watched_episode", default: 0, null: false
     t.json "metadata", default: {}, null: false
     t.string "name", limit: 100, null: false
+    t.string "poster_url", limit: 500
     t.integer "total_episodes", default: 1, null: false
     t.datetime "updated_at", null: false
     t.integer "watch_status", default: 0, null: false
