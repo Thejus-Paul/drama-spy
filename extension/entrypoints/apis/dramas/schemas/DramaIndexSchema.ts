@@ -7,6 +7,7 @@ export const DramaIndexSchema = v.object({
   name: v.string(),
   watchStatus: v.enum_(WatchStatusEnum),
   metadata: v.record(v.string(), v.unknown()),
+  posterUrl: v.nullable(v.string()),
 });
 
 export type DramaIndexInput = v.InferInput<typeof DramaIndexSchema>;

@@ -1,6 +1,6 @@
 require "test_helper"
 
-# Test for the drama model
+# Tests for Drama model validations and behavior
 class DramaTest < ActiveSupport::TestCase
   setup do
     @drama = dramas(:one)
@@ -44,6 +44,42 @@ class DramaTest < ActiveSupport::TestCase
 
     refute_predicate(@drama, :valid?)
     assert_equal("Description is too long (maximum is #{::Drama::LIMITS[:description]} characters)", @drama.errors.full_messages.to_sentence)
+  end
+
+  test "should accept valid poster_url" do
+    @drama.poster_url = "https://example.com/poster.jpg"
+
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should accept blank poster_url" do
+    @drama.poster_url = nil
+    assert_predicate(@drama, :valid?)
+
+    @drama.poster_url = ""
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should reject poster_url with invalid format" do
+    @drama.poster_url = "not-a-url"
+
+    refute_predicate(@drama, :valid?)
+    assert_includes(@drama.errors.full_messages, "Poster url is invalid")
+  end
+
+  test "should reject poster_url without http or https" do
+    @drama.poster_url = "ftp://example.com/poster.jpg"
+
+    refute_predicate(@drama, :valid?)
+    assert_includes(@drama.errors.full_messages, "Poster url is invalid")
+  end
+
+  test "should enforce poster_url length limit" do
+    long_url = "https://example.com/" + "x" * (::Drama::LIMITS[:poster_url] + 1)
+    @drama.poster_url = long_url
+
+    refute_predicate(@drama, :valid?)
+    assert_equal("Poster url is too long (maximum is #{::Drama::LIMITS[:poster_url]} characters)", @drama.errors.full_messages.to_sentence)
   end
 
   test "should require presence of watch_status" do

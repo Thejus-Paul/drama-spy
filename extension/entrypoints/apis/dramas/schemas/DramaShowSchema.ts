@@ -16,6 +16,7 @@ export const DramaShowSchema = v.object({
   totalEpisodes: v.number(),
   watchStatus: v.enum_(WatchStatusEnum),
   metadata: v.record(v.string(), v.unknown()),
+  posterUrl: v.nullable(v.string()),
 });
 
 export type DramaShowInput = v.InferInput<typeof DramaShowSchema>;

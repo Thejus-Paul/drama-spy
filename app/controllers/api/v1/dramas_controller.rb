@@ -1,4 +1,4 @@
-# To list, create or update dramas from an API call.
+# Handles API endpoints for drama management (list, show, create, update)
 class Api::V1::DramasController < ApplicationController
   LIST_CACHE_KEY = "drama_list"
 
@@ -43,6 +43,9 @@ class Api::V1::DramasController < ApplicationController
   def name = params[:name] || drama_params[:name]
 
   def drama_params
-    params.expect(drama: [ :airing_status, :country, :description, :last_watched_episode, :name, :total_episodes, { metadata: {} } ])
+    params.expect(drama: [
+      :airing_status, :country, :description, :last_watched_episode,
+      :name, :poster_url, :total_episodes, { metadata: {} }
+    ])
   end
 end

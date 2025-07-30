@@ -11,5 +11,6 @@ one:
   description: null
   total_episodes: 12
   airing_status: "completed"
+  poster_url: "https://example.com/drama1-poster.jpg"
   metadata: {}
 

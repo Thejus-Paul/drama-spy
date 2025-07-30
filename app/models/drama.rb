@@ -1,9 +1,10 @@
-# Drama model with required validations
+# Drama model with validations for tracking watch progress and metadata
 class Drama < ApplicationRecord
   LIMITS = {
     description: 2000,
     country: 50,
     name: 100,
+    poster_url: 500,
     max_episodes: 200,
     min_episodes: 1,
     min_last_watched: 0
@@ -21,6 +22,8 @@ class Drama < ApplicationRecord
   validates :description, length: { maximum: LIMITS[:description] }
   validates :country, length: { maximum: LIMITS[:country] }
   validates :name, length: { maximum: LIMITS[:name] }, uniqueness: true
+  validates :poster_url, length: { maximum: LIMITS[:poster_url] },
+            format: { with: /\Ahttps?:\/\/[^\n]+\z/i }, allow_blank: true
   validates :last_watched_episode,
             numericality: {
               greater_than_or_equal_to: LIMITS[:min_last_watched],
