@@ -1,6 +1,6 @@
 require "test_helper"
 
-# Tests the API endpoints for managing dramas.
+# Tests for drama API endpoints (index, show, create, update)
 class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   setup do
     @drama = Drama.create!(
@@ -10,6 +10,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
       description: "A mystery drama.",
       last_watched_episode: 5,
       total_episodes: 20,
+      poster_url: "https://example.com/poster.jpg",
       metadata: {}
     )
   end
@@ -42,6 +43,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
       name: "New Drama", airing_status: "completed",
       country: "Korea", description: "A comedy series.",
       last_watched_episode: 10, total_episodes: 15,
+      poster_url: "https://example.com/new-poster.jpg",
       metadata: {}
     }
 
@@ -54,6 +56,14 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_equal(drama[:name], json_body[:name])
+    assert_equal(drama[:poster_url], json_body[:poster_url])
+  end
+
+  test "should include poster_url in drama response" do
+    get(api_v1_drama_path(@drama.name))
+
+    assert_response :ok
+    assert_equal(@drama.poster_url, json_body[:poster_url])
   end
 
   test "should update drama" do
