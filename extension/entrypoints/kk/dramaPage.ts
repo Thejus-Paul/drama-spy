@@ -33,6 +33,12 @@ const dramaPage = async () => {
   drama.description =
     document.querySelector<HTMLParagraphElement>(SELECTORS.description)
       ?.textContent ?? "";
+
+  const posterElement = document.querySelector<HTMLVideoElement>(
+    SELECTORS.poster,
+  );
+  drama.posterUrl = posterElement?.poster ?? "";
+
   const episodes = document.querySelectorAll<HTMLButtonElement>(
     SELECTORS.episodeButtons,
   );
