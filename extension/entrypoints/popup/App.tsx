@@ -26,19 +26,28 @@ const App = () => {
       <h1>DraMA Spy</h1>
       <div class="drama-list">
         <For each={dramas()} fallback={<div>Loading...</div>}>
-          {({ name, lastWatchedEpisode, metadata }) => (
+          {({ name, lastWatchedEpisode, metadata, posterUrl }) => (
             <div class="drama-card">
-              <div>
-                <strong>{name}</strong>&nbsp;
-                <span>
-                  stopped at episode <strong>{lastWatchedEpisode}</strong>
-                </span>
-              </div>
-              {isString(metadata.id) && (
-                <a href={getDramaLink(name, metadata.id)} target="_blank">
-                  Continue watching
-                </a>
+              {posterUrl && (
+                <img
+                  src={posterUrl}
+                  alt={`${name} poster`}
+                  class="drama-poster"
+                />
               )}
+              <div class="drama-content">
+                <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                  <strong>{name}</strong>
+                  <span>
+                    Last watched: <strong>{lastWatchedEpisode}</strong>
+                  </span>
+                </div>
+                {isString(metadata.id) && (
+                  <a href={getDramaLink(name, metadata.id)} target="_blank">
+                    Continue watching
+                  </a>
+                )}
+              </div>
             </div>
           )}
         </For>
