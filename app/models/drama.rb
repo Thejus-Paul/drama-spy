@@ -18,7 +18,7 @@ class Drama < ApplicationRecord
   enum :watch_status, %i[ not_started watching finished ], default: :not_started, validate: true
 
   validates :airing_status, :country, :name, :watch_status, :total_episodes,
-            :last_watched_episode, :metadata, presence: true
+            :last_watched_episode, presence: true
   validates :description, length: { maximum: LIMITS[:description] }
   validates :country, length: { maximum: LIMITS[:country] }
   validates :name, length: { maximum: LIMITS[:name] }, uniqueness: true
@@ -36,31 +36,17 @@ class Drama < ApplicationRecord
               less_than_or_equal_to: LIMITS[:max_episodes]
             }
 
-  validate :last_watched_episode_valid, :total_episodes_valid, :metadata_valid
+  validate :last_watched_episode_valid, :metadata_valid
 
-  before_validation :ensure_metadata_present
   before_save :update_watch_status
 
   private
-
-  def ensure_metadata_present
-    self.metadata = {} if metadata.nil?
-    def metadata.blank? = false
-  end
 
   def last_watched_episode_valid
     return unless last_watched_episode.present? && total_episodes.present?
 
     if last_watched_episode < 0 || last_watched_episode > total_episodes
       errors.add(:last_watched_episode, "must be between 0 and the total number of episodes")
-    end
-  end
-
-  def total_episodes_valid
-    return unless total_episodes.present?
-
-    if total_episodes < 1 || total_episodes > 200
-      errors.add(:last_watched_episode, "must be a valid number between 1 and 200")
     end
   end
 
@@ -75,13 +61,14 @@ class Drama < ApplicationRecord
   end
 
   def metadata_valid
+    return unless metadata
+
     unless metadata.is_a?(Hash)
       errors.add(:metadata, "must be a valid JSON object")
       return
     end
 
-    # Validate metadata size (prevent abuse)
-    if metadata.to_json.bytesize > 10_000 # 10KB limit
+    if metadata.to_json.bytesize > 10_000
       errors.add(:metadata, "is too large (maximum 10KB)")
     end
   end

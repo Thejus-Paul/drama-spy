@@ -1,9 +1,5 @@
 import * as v from "valibot";
-import {
-  AiringStatusEnum,
-  StatusEnum,
-  WatchStatusEnum,
-} from "../../../../types";
+import { AiringStatusEnum, StatusEnum, WatchStatusEnum } from "../../../../types";
 
 export const DramaShowSchema = v.object({
   status: v.enum_(StatusEnum),
@@ -15,7 +11,7 @@ export const DramaShowSchema = v.object({
   name: v.string(),
   totalEpisodes: v.number(),
   watchStatus: v.enum_(WatchStatusEnum),
-  metadata: v.record(v.string(), v.unknown()),
+  metadata: v.nullable(v.record(v.string(), v.unknown())),
   posterUrl: v.nullable(v.string()),
 });
 

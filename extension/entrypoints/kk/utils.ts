@@ -10,7 +10,7 @@ const getUpdatedValues = (
   for (const key of Object.keys(watchedDrama) as Array<keyof DramaShow>) {
     if (["status", "watchStatus"].includes(key as string)) continue;
     if (drama[key] !== watchedDrama[key]) {
-      (updatedDrama as Record<keyof DramaShow, unknown>)[key] = 
+      (updatedDrama as Record<keyof DramaShow, unknown>)[key] =
         drama[key] ?? "";
     }
   }
