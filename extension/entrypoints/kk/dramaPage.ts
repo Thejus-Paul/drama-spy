@@ -6,6 +6,7 @@ import {
   SELECTORS,
 } from "./constants";
 import { getDramaSlug, getUpdatedValues, highlightEpisodes } from "./utils";
+
 import messaging from "../messaging";
 
 const dramaPage = async () => {

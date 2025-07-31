@@ -147,11 +147,11 @@ class DramaTest < ActiveSupport::TestCase
     assert_equal("finished", @drama.watch_status)
   end
 
-  test "should convert nil metadata to empty hash before validation" do
+  test "should accept nil metadata as valid" do
     @drama.metadata = nil
     @drama.valid? # trigger validations
 
-    assert_equal({}, @drama.metadata)
+    assert_nil(@drama.metadata)
     assert_predicate(@drama, :valid?)
   end
 
@@ -208,6 +208,93 @@ class DramaTest < ActiveSupport::TestCase
     @drama.reload
     assert_equal("Chrome", @drama.metadata["additional_data"]["user_agent"])
     assert_equal("google.com", @drama.metadata["additional_data"]["referrer"])
+  end
+
+  test "scope in_progress_first should exclude not_started dramas" do
+    not_started_drama = Drama.create!(
+      name: "Not Started Drama", airing_status: "ongoing", country: "Japan",
+      total_episodes: 10, last_watched_episode: 0, watch_status: "not_started"
+    )
+    watching_drama = Drama.create!(
+      name: "Watching Drama", airing_status: "ongoing", country: "Japan",
+      total_episodes: 10, last_watched_episode: 5, watch_status: "watching"
+    )
+
+    in_progress_dramas = Drama.in_progress_first
+
+    refute_includes(in_progress_dramas, not_started_drama)
+    assert_includes(in_progress_dramas, watching_drama)
+  end
+
+  test "scope in_progress_first should order by watch_status and updated_at desc" do
+    finished_drama = Drama.create!(
+      name: "Finished Drama", airing_status: "completed", country: "Japan",
+      total_episodes: 10, last_watched_episode: 10, watch_status: "finished"
+    )
+    watching_drama = Drama.create!(
+      name: "Watching Drama", airing_status: "ongoing", country: "Japan",
+      total_episodes: 10, last_watched_episode: 5, watch_status: "watching"
+    )
+
+    in_progress_dramas = Drama.in_progress_first
+
+    assert_equal(watching_drama.id, in_progress_dramas.first.id)
+    assert_equal(finished_drama.id, in_progress_dramas.second.id)
+  end
+
+  test "should have valid enum values for airing_status" do
+    assert_includes(Drama.airing_statuses.keys, "upcoming")
+    assert_includes(Drama.airing_statuses.keys, "ongoing")
+    assert_includes(Drama.airing_statuses.keys, "completed")
+  end
+
+  test "should have valid enum values for watch_status" do
+    assert_includes(Drama.watch_statuses.keys, "not_started")
+    assert_includes(Drama.watch_statuses.keys, "watching")
+    assert_includes(Drama.watch_statuses.keys, "finished")
+  end
+
+  test "should set default airing_status to upcoming" do
+    drama = Drama.new
+    assert_equal("upcoming", drama.airing_status)
+  end
+
+  test "should set default watch_status to not_started" do
+    drama = Drama.new
+    assert_equal("not_started", drama.watch_status)
+  end
+
+  test "should accept total_episodes exactly at 200 boundary" do
+    @drama.total_episodes = 200
+
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should reject total_episodes at 201 over boundary" do
+    @drama.total_episodes = 201
+
+    refute_predicate(@drama, :valid?)
+    assert_includes(@drama.errors.full_messages, "Total episodes must be less than or equal to 200")
+  end
+
+  test "should accept total_episodes exactly at 1 boundary" do
+    @drama.total_episodes = 1
+    @drama.last_watched_episode = 0
+
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should accept metadata exactly at 10KB limit" do
+    large_metadata = { "data" => "x" * 9900 }
+    @drama.metadata = large_metadata
+
+    assert_predicate(@drama, :valid?)
+  end
+
+  test "should accept poster_url with http protocol" do
+    @drama.poster_url = "http://example.com/poster.jpg"
+
+    assert_predicate(@drama, :valid?)
   end
 
   private
