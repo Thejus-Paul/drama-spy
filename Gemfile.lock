@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 40a3f2fedc12e70750e2b14ad096c135e7bb1df7
+  revision: 589fe8a233cdbe4ed8613145773d613e9ef86da5
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -108,10 +108,10 @@ GIT
 
 GIT
   remote: https://github.com/whitesmith/rubycritic.git
-  revision: 27f305f379ba9bf387ac717b7948de42884c8732
+  revision: 0d6a2f8f32e5a008bd5c64dd736ecde3ea48bbc4
   branch: main
   specs:
-    rubycritic (4.9.2)
+    rubycritic (4.10.0)
       flay (~> 2.13)
       flog (~> 4.7)
       launchy (>= 2.5.2)
@@ -345,7 +345,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.16)
+    rack (3.2.0)
     rack-cors (3.0.0)
       logger
       rack (>= 3.0.14)
@@ -378,7 +378,7 @@ GEM
     reline (0.6.2)
       io-console (~> 0.5)
     rexml (3.4.1)
-    rubocop (1.79.0)
+    rubocop (1.79.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -388,7 +388,6 @@ GEM
       regexp_parser (>= 2.9.3, < 3.0)
       rubocop-ast (>= 1.46.0, < 2.0)
       ruby-progressbar (~> 1.7)
-      tsort (>= 0.2.0)
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.46.0)
       parser (>= 3.3.7.2)
