@@ -21,8 +21,7 @@
   "version": "0.0.1",
   "dependencies": {
     "@webext-core/messaging": "catalog:prod",
-    "camelcase-keys": "catalog:prod",
-    "snakecase-keys": "catalog:prod",
+    "es-toolkit": "catalog:prod",
     "solid-js": "catalog:frontend",
     "stats.js": "catalog:prod",
     "up-fetch": "catalog:prod",

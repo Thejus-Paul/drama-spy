@@ -10,10 +10,10 @@ import { DramaIndexSchema } from "./schemas/DramaIndexSchema";
 import { DramaShowSchema } from "./schemas/DramaShowSchema";
 import { ErrorSchema } from "./schemas/ErrorSchema";
 import { SuccessSchema } from "./schemas/SuccessSchema";
-import camelcaseKeys from "camelcase-keys";
-import snakecaseKeys from "snakecase-keys";
+import { toCamelCaseKeys, toSnakeCaseKeys } from "es-toolkit";
 import { up } from "up-fetch";
 import { array, variant } from "valibot";
+import type { DramaShow } from "@/types";
 
 const upfetch = up(fetch, () => ({
   baseUrl: API_V1_URL,
@@ -25,7 +25,7 @@ const upfetch = up(fetch, () => ({
     const contentType = response.headers.get("content-type") || "";
     if (contentType.includes("application/json")) {
       const data = await response.json();
-      return camelcaseKeys(data, { deep: true });
+      return toCamelCaseKeys(data);
     }
     return response;
   },
@@ -36,9 +36,9 @@ const upfetch = up(fetch, () => ({
     when: ({ response }) =>
       !response || response.status === ERROR_CODES.NOT_FOUND,
   },
-  serializeBody: (body: Record<string, string | number>) => {
+  serializeBody: (body: Record<string, unknown>) => {
     if (body && typeof body === "object") {
-      return JSON.stringify(snakecaseKeys(body, { deep: true }));
+      return JSON.stringify(toSnakeCaseKeys(body));
     }
     return body;
   },
@@ -51,14 +51,14 @@ const show = (name: string) =>
     schema: variant("status", [DramaShowSchema, ErrorSchema]),
   });
 
-const create = (drama: object) =>
+const create = (drama: Partial<DramaShow>) =>
   upfetch("/dramas", {
     body: { drama },
     method: "POST",
     schema: variant("status", [SuccessSchema, ErrorSchema]),
   });
 
-const update = (id: number, drama: object) =>
+const update = (id: number, drama: Partial<DramaShow>) =>
   upfetch(`/dramas/${id}`, {
     body: { drama },
     method: "PATCH",

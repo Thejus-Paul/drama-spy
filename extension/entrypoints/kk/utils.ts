@@ -6,14 +6,12 @@ const getUpdatedValues = (
   watchedDrama: DramaShow,
   drama: Partial<DramaShow>,
 ): Partial<DramaShow> => {
-  const updatedDrama: Record<string, string | number> = {};
-  for (const key of Object.keys(watchedDrama)) {
-    if (["status", "watchStatus"].includes(key)) continue;
-    if (
-      drama[key as keyof typeof drama] !==
-      watchedDrama[key as keyof typeof watchedDrama]
-    ) {
-      updatedDrama[key] = drama[key as keyof typeof drama] ?? "";
+  const updatedDrama: Partial<DramaShow> = {};
+  for (const key of Object.keys(watchedDrama) as Array<keyof DramaShow>) {
+    if (["status", "watchStatus"].includes(key as string)) continue;
+    if (drama[key] !== watchedDrama[key]) {
+      (updatedDrama as Record<keyof DramaShow, unknown>)[key] = 
+        drama[key] ?? "";
     }
   }
   updatedDrama.id = watchedDrama.id;
