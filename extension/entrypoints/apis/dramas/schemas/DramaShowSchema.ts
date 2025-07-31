@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { AiringStatusEnum, StatusEnum, WatchStatusEnum } from "../../../../types";
+import { AiringStatusEnum, StatusEnum, WatchStatusEnum } from "@/types";
 
 export const DramaShowSchema = v.object({
   status: v.enum_(StatusEnum),
