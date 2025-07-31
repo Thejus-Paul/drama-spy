@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { StatusEnum } from "../../../../types";
+import { StatusEnum } from "@/types";
 
 export const ErrorSchema = v.object({
   status: v.enum_(StatusEnum),

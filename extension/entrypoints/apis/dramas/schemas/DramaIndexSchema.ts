@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { WatchStatusEnum } from "../../../../types";
+import { WatchStatusEnum } from "@/types";
 
 export const DramaIndexSchema = v.object({
   id: v.number(),
