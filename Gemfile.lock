@@ -1,13 +1,13 @@
 GIT
   remote: https://github.com/gregnavis/active_record_doctor.git
-  revision: 98d7d6ec79d2247c560ffe5c0b4ae520ecff9aaf
+  revision: f226d2c9ee451d279867ec7fbf53646eff48eec7
   specs:
     active_record_doctor (1.15.0)
       activerecord (>= 7.0.0)
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 589fe8a233cdbe4ed8613145773d613e9ef86da5
+  revision: add5a73b26e78d6b13945525874749ae40af21c7
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -131,7 +131,7 @@ GEM
       railties
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    alba (3.7.4)
+    alba (3.8.0)
     ast (2.4.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -341,7 +341,7 @@ GEM
       date
       stringio
     public_suffix (6.0.2)
-    puma (6.6.0)
+    puma (6.6.1)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)

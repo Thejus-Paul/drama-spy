@@ -11,7 +11,8 @@ class Api::V1::DramasController < ApplicationController
   end
 
   def show
-    drama = Rails.cache.fetch(cache_key(name), expires_in: 1.year) { Drama.find_by(name:) }
+    cache_key = CacheKeyService.get_key(name, "drama")
+    drama = Rails.cache.fetch(cache_key, expires_in: 1.year) { Drama.find_by(name:) }
 
     render_error("Drama not found", status: :not_found) and return unless drama
 
@@ -36,9 +37,10 @@ class Api::V1::DramasController < ApplicationController
 
   private
 
-  def clear_cache = [ LIST_CACHE_KEY, cache_key(name) ].each { |key| Rails.cache.delete(key) }
-
-  def cache_key(drama_name) = "drama/#{drama_name}"
+  def clear_cache
+    cache_keys = [ LIST_CACHE_KEY, CacheKeyService.get_key(name, "drama") ]
+    cache_keys.each { |key| Rails.cache.delete(key) }
+  end
 
   def name = params[:name] || drama_params[:name]
 
