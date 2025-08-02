@@ -38,7 +38,14 @@ class Api::V1::DramasController < ApplicationController
 
   def clear_cache = [ LIST_CACHE_KEY, cache_key(name) ].each { |key| Rails.cache.delete(key) }
 
-  def cache_key(drama_name) = "drama/#{drama_name}"
+  def cache_key(drama_name)
+    sanitized_name = drama_name.to_s.strip
+      .gsub(/[^\w\-.]/, "_")  # Replace non-word chars with underscore
+      .gsub(/_+/, "_")        # Collapse multiple underscores
+      .gsub(/^_|_$/, "")      # Remove leading/trailing underscores
+      .downcase
+    "drama/#{sanitized_name}"
+  end
 
   def name = params[:name] || drama_params[:name]
 
