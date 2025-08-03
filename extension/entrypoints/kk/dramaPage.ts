@@ -15,19 +15,26 @@ import {
 import messaging from "../messaging";
 import { isEqual } from "es-toolkit";
 
-const dramaPage = async () => {
-  document.querySelector(SELECTORS.footer)?.remove();
+const dramaPage = async (retryCount: number = 0) => {
   const drama = INITIAL_DRAMA_DATA;
-
-  // Setup interval check for episode completion
-  setInterval(() => {
-    const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
-    const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
-    if (value >= 75) messaging.sendMessage("up");
-  }, ONE_MINUTE_DELAY);
 
   const nameElement = document.querySelector<HTMLElement>(SELECTORS.title);
   drama.name = nameElement?.innerText ?? "";
+
+  if (!drama.name.trim()) {
+    if (retryCount < 10) setTimeout(() => dramaPage(retryCount + 1), 250);
+    return;
+  }
+
+  if (retryCount === 0 || !document.querySelector(SELECTORS.footer)) {
+    document.querySelector(SELECTORS.footer)?.remove();
+
+    setInterval(() => {
+      const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
+      const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
+      if (value >= 75) messaging.sendMessage("up");
+    }, ONE_MINUTE_DELAY);
+  }
 
   const browserSlug = window.location.pathname.replace("/Drama/", "");
   const dramaSlug = getDramaSlug(drama.name);
