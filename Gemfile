@@ -1,7 +1,11 @@
 source "https://rubygems.org"
 
 # Use main development branch of Rails
-gem "rails", github: "rails/rails", branch: "main"
+gem "activemodel", github: "rails/rails", branch: "main"
+gem "activerecord", github: "rails/rails", branch: "main"
+gem "activejob", github: "rails/rails", branch: "main"
+gem "actionpack", github: "rails/rails", branch: "main"
+
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -76,4 +80,7 @@ group :development do
 
   # A modern profiler for your Rails application.
   gem "dial", require: false
+
+  # A modern profiler for your Rails application.
+  gem "derailed_benchmarks", require: false
 end
