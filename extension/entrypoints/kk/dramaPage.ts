@@ -5,9 +5,15 @@ import {
   ONE_MINUTE_DELAY,
   SELECTORS,
 } from "./constants";
-import { getDramaSlug, getUpdatedValues, highlightEpisodes } from "./utils";
+import {
+  getDramaSlug,
+  getUpdatedValues,
+  highlightEpisodes,
+  objectDiff,
+} from "./utils";
 
 import messaging from "../messaging";
+import { isEqual } from "es-toolkit";
 
 const dramaPage = async () => {
   document.querySelector(SELECTORS.footer)?.remove();
@@ -38,7 +44,7 @@ const dramaPage = async () => {
   const posterElement = document.querySelector<HTMLVideoElement>(
     SELECTORS.poster,
   );
-  drama.posterUrl = posterElement?.poster ?? "";
+  drama.posterUrl = posterElement?.poster;
 
   const episodes = document.querySelectorAll<HTMLButtonElement>(
     SELECTORS.episodeButtons,
@@ -83,6 +89,18 @@ const dramaPage = async () => {
   }
 
   if (!("lastWatchedEpisode" in watchedDrama)) return;
+  const updatedValues = {
+    ...watchedDrama,
+    ...drama,
+    lastWatchedEpisode: watchedDrama.lastWatchedEpisode,
+    posterUrl: drama.posterUrl,
+    metadata: dramaMetadata,
+  };
+  const payload = { ...objectDiff(watchedDrama, updatedValues), id: watchedDrama.id, name: drama.name };
+  console.log(payload);
+
+  if (!isEqual(updatedValues, watchedDrama))
+    await messaging.sendMessage("updateDrama", payload);
 
   const lastWatched = watchedDrama.lastWatchedEpisode;
   const isUnwatched = currentEpisode > 0 && currentEpisode !== lastWatched;
