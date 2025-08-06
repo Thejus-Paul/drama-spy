@@ -1,13 +1,13 @@
 GIT
   remote: https://github.com/gregnavis/active_record_doctor.git
-  revision: f226d2c9ee451d279867ec7fbf53646eff48eec7
+  revision: 998780bf6a96ddf3da698e19bece09d5fe50d4f6
   specs:
     active_record_doctor (1.15.0)
       activerecord (>= 7.0.0)
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: add5a73b26e78d6b13945525874749ae40af21c7
+  revision: 50390cfeb1fb030cee8ed318583ed8eb07cffeab
   branch: main
   specs:
     actionpack (8.1.0.alpha)
@@ -335,11 +335,11 @@ GEM
       parser (~> 3.3.0)
       rainbow (>= 2.0, < 4.0)
       rexml (~> 3.1)
-    regexp_parser (2.10.0)
+    regexp_parser (2.11.0)
     reline (0.6.2)
       io-console (~> 0.5)
     rexml (3.4.1)
-    rubocop (1.79.1)
+    rubocop (1.79.2)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -420,10 +420,10 @@ GEM
     stringio (3.1.7)
     thor (1.4.0)
     thread_safe (0.3.6)
-    thruster (0.1.14)
-    thruster (0.1.14-aarch64-linux)
-    thruster (0.1.14-arm64-darwin)
-    thruster (0.1.14-x86_64-linux)
+    thruster (0.1.15)
+    thruster (0.1.15-aarch64-linux)
+    thruster (0.1.15-arm64-darwin)
+    thruster (0.1.15-x86_64-linux)
     timeout (0.4.3)
     tsort (0.2.0)
     tty-which (0.5.0)
