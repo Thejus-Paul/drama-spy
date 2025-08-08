@@ -3,10 +3,10 @@ catalogs:
     "@wxt-dev/module-solid": 1.1.3
     ts-morph: 26.0.0
     typescript: 5.9.2
-    typescript-eslint: 8.38.0
+    typescript-eslint: 8.39.0
     wxt: 0.20.7
   frontend:
-    solid-js: 1.9.7
+    solid-js: 1.9.8
   inlined:
     stats.js: 0.17.0
   lint:
@@ -17,11 +17,11 @@ catalogs:
     "@webext-core/messaging": 2.3.0
     es-toolkit: 1.39.8
     stats.js: 0.17.0
-    up-fetch: 2.2.0
+    up-fetch: 2.3.0
     valibot: 1.1.0
   script:
     "@sinclair/typemap": 0.10.1
     tsx: 4.20.3
   types:
     "@types/stats.js": 0.17.4
-    "@types/node": 24.1.0
+    "@types/node": 24.2.0
