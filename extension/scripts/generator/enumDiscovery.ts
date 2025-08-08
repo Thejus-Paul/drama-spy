@@ -1,12 +1,25 @@
-import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { SyntaxKind } from "ts-morph";
 import type { GenerationContext } from "./types";
 import { ENUM_SEARCH_DIRS } from "./constants";
+import { PathValidator } from "./pathValidator";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Handles discovery of enums in TypeScript files
 export class EnumDiscovery {
-  constructor(private context: GenerationContext) {}
+  private pathValidator: PathValidator;
+
+  constructor(private context: GenerationContext) {
+    const { config } = this.context;
+    const allowedDirs = [...ENUM_SEARCH_DIRS, config.inputDir].filter(
+      Boolean,
+    ) as string[];
+
+    this.pathValidator = new PathValidator(allowedDirs);
+  }
 
   async discoverEnums(): Promise<void> {
     const { config } = this.context;
@@ -17,21 +30,32 @@ export class EnumDiscovery {
     ];
 
     for (const searchDir of enumSearchDirs) {
-      if (!fs.existsSync(searchDir)) continue;
-      await this.searchDirectoryForEnums(searchDir);
+      try {
+        if (!this.pathValidator.safeExists(searchDir)) continue;
+        await this.searchDirectoryForEnums(searchDir);
+      } catch (error) {
+        // Silently skip directories that can't be accessed for security
+        continue;
+      }
     }
   }
 
   private async searchDirectoryForEnums(searchDir: string): Promise<void> {
-    const files = fs.readdirSync(searchDir).filter((f) => f.endsWith(".ts"));
+    try {
+      const files = this.pathValidator
+        .safeReadDir(searchDir)
+        .filter((f) => f.endsWith(".ts"));
 
-    for (const file of files) {
-      const filePath = path.join(searchDir, file);
-      try {
-        await this.processFileForEnums(filePath);
-      } catch (error) {
-        // Ignore files that can't be processed
+      for (const file of files) {
+        try {
+          const filePath = this.pathValidator.safeJoin(searchDir, file);
+          await this.processFileForEnums(filePath);
+        } catch (error) {
+          // Ignore files that can't be processed for security
+        }
       }
+    } catch (error) {
+      // Silently fail for security - don't expose directory structure
     }
   }
 

@@ -6,7 +6,7 @@ catalogs:
     typescript-eslint: 8.39.0
     wxt: 0.20.7
   frontend:
-    solid-js: 1.9.7
+    solid-js: 1.9.8
   inlined:
     stats.js: 0.17.0
   lint:

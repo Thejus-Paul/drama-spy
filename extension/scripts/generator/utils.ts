@@ -1,4 +1,4 @@
-import fs from "fs";
+import { PathValidator } from "./pathValidator";
 
 // String conversion utilities
 export const snakeToCamel = (str: string): string => {
@@ -11,8 +11,15 @@ export const camelToSnake = (str: string): string => {
 
 // File system utilities
 export const ensureDirectoryExists = (dirPath: string): void => {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
+  try {
+    // Create a temporary PathValidator to check if the directory is allowed
+    const pathValidator = new PathValidator([dirPath]);
+    if (!pathValidator.safeExists(dirPath)) {
+      const keepFilePath = pathValidator.safeJoin(dirPath, ".keep");
+      pathValidator.safeWriteFile(keepFilePath, "");
+    }
+  } catch (error) {
+    // Silently fail for security - don't expose directory structure
   }
 };
 
@@ -20,9 +27,24 @@ export const getTypeScriptFiles = (
   inputDir: string,
   excludeFiles: string[] = [],
 ): string[] => {
-  return fs
-    .readdirSync(inputDir)
-    .filter((file) => file.endsWith(".ts") && !excludeFiles.includes(file));
+  try {
+    const pathValidator = new PathValidator([inputDir]);
+
+    if (!pathValidator.safeExists(inputDir)) {
+      return [];
+    }
+
+    const files = pathValidator.safeReadDir(inputDir);
+
+    const tsFiles = files.filter(
+      (file) => file.endsWith(".ts") && !excludeFiles.includes(file),
+    );
+
+    return tsFiles;
+  } catch (error) {
+    // Return empty array on any error for security
+    return [];
+  }
 };
 
 // Schema generation utilities

@@ -20,16 +20,20 @@ import {
 } from "./generator/utils";
 import { EnumDiscovery } from "./generator/enumDiscovery";
 import { TypeMapper } from "./generator/typeMapper";
+import { PathValidator } from "./generator/pathValidator";
 
 // Generates Valibot schemas from TypeScript type definitions
 class TypeScriptToValibotGenerator {
   private context: GenerationContext;
   private enumDiscovery: EnumDiscovery;
   private typeMapper: TypeMapper;
+  private pathValidator: PathValidator;
 
   constructor(config: Partial<GeneratorConfig> = {}) {
+    const finalConfig = { ...DEFAULT_CONFIG, ...config } as GeneratorConfig;
+
     this.context = {
-      config: { ...DEFAULT_CONFIG, ...config } as GeneratorConfig,
+      config: finalConfig,
       project: new Project({
         tsConfigFilePath: config.tsConfigPath || DEFAULT_CONFIG.tsConfigPath,
       }),
@@ -38,6 +42,14 @@ class TypeScriptToValibotGenerator {
       usedEnums: new Set(),
     };
 
+    // Initialize path validator with allowed directories
+    const allowedDirs = [
+      finalConfig.inputDir,
+      finalConfig.outputDir,
+      finalConfig.extensionTypesDir,
+    ].filter(Boolean) as string[];
+
+    this.pathValidator = new PathValidator(allowedDirs);
     this.enumDiscovery = new EnumDiscovery(this.context);
     this.typeMapper = new TypeMapper(this.context);
   }
@@ -53,12 +65,13 @@ class TypeScriptToValibotGenerator {
     await this.enumDiscovery.discoverEnums();
 
     const typeFiles = getTypeScriptFiles(config.inputDir, config.excludeFiles);
+
     const generatedTypes: string[] = [];
     const detectedEnums = new Map<string, string[]>();
 
     // PHASE 1: Extract all enums from all type files first
     for (const file of typeFiles) {
-      const filePath = path.join(config.inputDir, file);
+      const filePath = this.pathValidator.safeJoin(config.inputDir, file);
       const typeName = path.basename(file, ".ts");
 
       if (this.context.discoveredEnums.has(typeName)) {
@@ -75,12 +88,17 @@ class TypeScriptToValibotGenerator {
           // Add to discovered enums so TypeMapper can use them
           this.context.discoveredEnums.set(enumName, {
             name: enumName,
-            filePath: `${config.extensionTypesDir}/${enumName}.ts`,
+            filePath: config.extensionTypesDir
+              ? this.pathValidator.safeJoin(
+                  config.extensionTypesDir,
+                  `${enumName}.ts`,
+                )
+              : `${enumName}.ts`,
             values,
           });
         });
       } catch (error) {
-        console.error(`❌ Error extracting enums from ${typeName}:`, error);
+        // Silently handle errors for security - don't expose file structure
       }
     }
 
@@ -91,27 +109,25 @@ class TypeScriptToValibotGenerator {
 
     // PHASE 3: Generate schemas (TypeMapper can now use the enums)
     for (const file of typeFiles) {
-      const filePath = path.join(config.inputDir, file);
+      const filePath = this.pathValidator.safeJoin(config.inputDir, file);
       const typeName = path.basename(file, ".ts");
 
       if (this.context.discoveredEnums.has(typeName)) {
-        console.log(`⏭️  Skipping enum file: ${typeName}`);
         continue;
       }
 
       try {
         const schemaCode = await this.generateSchemaForFile(filePath, typeName);
         if (schemaCode) {
-          const outputPath = path.join(
+          const outputPath = this.pathValidator.safeJoin(
             config.outputDir,
             generateSchemaFileName(typeName),
           );
-          fs.writeFileSync(outputPath, schemaCode);
-          console.log(`✅ Schema generated: ${outputPath}`);
+          this.pathValidator.safeWriteFile(outputPath, schemaCode);
           generatedTypes.push(typeName);
         }
       } catch (error) {
-        console.error(`❌ Error generating schema for ${typeName}:`, error);
+        // Silently handle errors for security - don't expose file structure
       }
     }
 
@@ -292,12 +308,11 @@ class TypeScriptToValibotGenerator {
     // Generate enum files
     for (const [enumName, values] of detectedEnums) {
       const enumContent = generateEnumContent(enumName, values);
-      const enumPath = path.join(
+      const enumPath = this.pathValidator.safeJoin(
         config.extensionTypesDir,
         generateEnumFileName(enumName),
       );
-      fs.writeFileSync(enumPath, enumContent);
-      console.log(`✅ Enum generated: ${enumPath}`);
+      this.pathValidator.safeWriteFile(enumPath, enumContent);
     }
   }
 
@@ -313,9 +328,11 @@ class TypeScriptToValibotGenerator {
       generatedTypes,
       Array.from(detectedEnums.keys()),
     );
-    const indexPath = path.join(config.extensionTypesDir, "index.ts");
-    fs.writeFileSync(indexPath, indexContent);
-    console.log(`✅ Index generated: ${indexPath}`);
+    const indexPath = this.pathValidator.safeJoin(
+      config.extensionTypesDir,
+      "index.ts",
+    );
+    this.pathValidator.safeWriteFile(indexPath, indexContent);
   }
 }
 

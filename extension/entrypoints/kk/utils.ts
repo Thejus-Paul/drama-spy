@@ -1,5 +1,18 @@
-import { DramaShow } from "@/types";
+import { AiringStatusEnum, DramaShow, WatchStatusEnum } from "@/types";
 import { flattenObject, isEqual } from "es-toolkit";
+import {
+  INITIAL_DRAMA_DATA,
+  METADATA_KEYS,
+  ONE_MINUTE_DELAY,
+  SELECTORS,
+} from "./constants";
+import messaging from "../messaging";
+import type {
+  HandleEpisodeProgressParams,
+  HandleNewDramaParams,
+  HandleDramaUpdateParams,
+  ExtractedDramaInfo,
+} from "./types";
 
 const getDramaSlug = (name: string) => name.replace(/[\s&()‘',.+:]/g, "-");
 
@@ -85,4 +98,125 @@ const objectDiff = (
   return unflattenObject(diff);
 };
 
-export { getDramaSlug, getUpdatedValues, highlightEpisodes, objectDiff };
+const extractDramaInfo = (): ExtractedDramaInfo | null => {
+  const drama = INITIAL_DRAMA_DATA;
+
+  const nameElement = document.querySelector<HTMLElement>(SELECTORS.title);
+  drama.name = nameElement?.innerText ?? "";
+
+  if (!drama.name.trim()) return null;
+
+  drama.description =
+    document.querySelector<HTMLParagraphElement>(SELECTORS.description)
+      ?.textContent ?? "";
+
+  const posterElement = document.querySelector<HTMLVideoElement>(
+    SELECTORS.poster,
+  );
+  drama.posterUrl = posterElement?.poster;
+
+  const episodes = document.querySelectorAll<HTMLButtonElement>(
+    SELECTORS.episodeButtons,
+  );
+  drama.totalEpisodes = episodes.length;
+
+  const metadata = document.querySelectorAll<HTMLSpanElement>(
+    SELECTORS.metadata,
+  );
+  let dramaType = "";
+  metadata.forEach((element, index) => {
+    const key = METADATA_KEYS[index];
+    const value = element.innerText;
+    if (key === "airingStatus")
+      drama[key] = value.toLowerCase() as AiringStatusEnum;
+    else if (key === "type") dramaType = value;
+    else drama[key] = value;
+  });
+
+  return { drama, episodes, dramaType };
+};
+
+const normalizeUrlSlug = (dramaName: string) => {
+  const browserSlug = window.location.pathname.replace("/Drama/", "");
+  const dramaSlug = getDramaSlug(dramaName);
+  if (browserSlug !== dramaSlug) {
+    const newUrl = window.location.href.replace(browserSlug, dramaSlug);
+    window.history.replaceState({}, "", newUrl);
+    return false;
+  }
+  return true;
+};
+
+const setupProgressMonitor = () => {
+  document.querySelector(SELECTORS.footer)?.remove();
+
+  setInterval(() => {
+    const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
+    const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
+    if (value >= 75) messaging.sendMessage("up");
+  }, ONE_MINUTE_DELAY);
+};
+
+const handleNewDrama = async (params: HandleNewDramaParams) => {
+  const { drama, currentEpisode, dramaMetadata } = params;
+  const newDrama = {
+    ...drama,
+    lastWatchedEpisode: currentEpisode,
+    metadata: dramaMetadata,
+  };
+  await messaging.sendMessage("createDrama", newDrama);
+};
+
+// Handles drama updates for existing dramas
+const handleDramaUpdate = async (params: HandleDramaUpdateParams) => {
+  const { watchedDrama, drama, dramaMetadata } = params;
+  const updatedValues = {
+    ...watchedDrama,
+    ...drama,
+    lastWatchedEpisode: watchedDrama.lastWatchedEpisode,
+    posterUrl: drama.posterUrl,
+    metadata: dramaMetadata,
+  };
+  const payload = {
+    ...objectDiff(watchedDrama, updatedValues),
+    id: watchedDrama.id,
+    name: drama.name,
+  };
+
+  if (!isEqual(updatedValues, watchedDrama)) {
+    await messaging.sendMessage("updateDrama", payload);
+  }
+};
+
+// Handles episode progress updates
+const handleEpisodeProgress = async (params: HandleEpisodeProgressParams) => {
+  const { watchedDrama, drama, currentEpisode, dramaMetadata, isTvSeries } =
+    params;
+  const lastWatched = watchedDrama.lastWatchedEpisode;
+  const isUnwatched = currentEpisode > 0 && currentEpisode !== lastWatched;
+  const isInProgress = watchedDrama.watchStatus !== WatchStatusEnum.finished;
+  const isAiring = drama.airingStatus !== AiringStatusEnum.completed;
+
+  if (isTvSeries && isUnwatched && (isInProgress || isAiring)) {
+    const changes = getUpdatedValues(watchedDrama, drama);
+    const updatedValues = {
+      ...changes,
+      lastWatchedEpisode: currentEpisode,
+      metadata: dramaMetadata,
+    };
+    await messaging.sendMessage("updateDrama", updatedValues);
+  }
+};
+
+export {
+  extractDramaInfo,
+  getDramaSlug,
+  getUpdatedValues,
+  highlightEpisodes,
+  normalizeUrlSlug,
+  objectDiff,
+  setupProgressMonitor,
+  handleNewDrama,
+  handleDramaUpdate,
+  handleEpisodeProgress,
+};

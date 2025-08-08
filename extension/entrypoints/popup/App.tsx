@@ -2,6 +2,7 @@ import { createResource, For, onMount } from "solid-js";
 import "./App.css";
 import Dramas from "../apis/dramas";
 import { getDramaLink, getMetadataId, setupStatsMonitor } from "./utils";
+import { WatchStatusEnum } from "@/types";
 
 const getDramas = async () => await Dramas.index();
 
@@ -17,28 +18,33 @@ const App = () => {
       <h1>DraMA Spy</h1>
       <div class="drama-list">
         <For each={dramas()} fallback={<div>Loading...</div>}>
-          {({ name, lastWatchedEpisode, metadata, posterUrl }) => {
-            const metadataId = getMetadataId(metadata);
+          {(drama) => {
+            const metadataId = getMetadataId(drama.metadata);
 
             return (
               <div class="drama-card">
-                {posterUrl && (
+                {drama.posterUrl && (
                   <img
-                    src={posterUrl}
-                    alt={`${name} poster`}
+                    src={drama.posterUrl}
+                    alt={`${drama.name} poster`}
                     class="drama-poster"
                   />
                 )}
                 <div class="drama-content">
                   <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                    <strong>{name}</strong>
+                    <strong>{drama.name}</strong>
                     <span>
-                      Last watched: <strong>{lastWatchedEpisode}</strong>
+                      Last watched: <strong>{drama.lastWatchedEpisode}</strong>
                     </span>
                   </div>
                   {metadataId && (
-                    <a href={getDramaLink(name, metadataId)} target="_blank">
-                      Continue watching
+                    <a
+                      href={getDramaLink(drama.name, metadataId)}
+                      target="_blank"
+                    >
+                      {drama.watchStatus === WatchStatusEnum.watching
+                        ? "Continue watching"
+                        : "Rewatch"}
                     </a>
                   )}
                 </div>
