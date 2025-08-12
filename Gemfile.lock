@@ -1,13 +1,13 @@
 GIT
   remote: https://github.com/gregnavis/active_record_doctor.git
-  revision: 998780bf6a96ddf3da698e19bece09d5fe50d4f6
+  revision: 96b3dd63231125a96a78d9510f3841fc2e443ee5
   specs:
     active_record_doctor (1.15.0)
       activerecord (>= 7.0.0)
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 67e7f9e55fde51689656aa197e825bb1614d8c15
+  revision: 2c3ea36fe98e36039636655d23ae210ee2670dff
   branch: main
   specs:
     actionpack (8.1.0.alpha)
@@ -174,7 +174,7 @@ GEM
     ed25519 (1.4.0)
     erb (5.0.2)
     erubi (1.13.1)
-    et-orbi (1.2.11)
+    et-orbi (1.3.0)
       tzinfo
     faker (3.5.2)
       i18n (>= 1.8.11, < 2)
@@ -335,7 +335,7 @@ GEM
       parser (~> 3.3.0)
       rainbow (>= 2.0, < 4.0)
       rexml (~> 3.1)
-    regexp_parser (2.11.0)
+    regexp_parser (2.11.1)
     reline (0.6.2)
       io-console (~> 0.5)
     rexml (3.4.1)
@@ -361,7 +361,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    rubocop-rails (2.32.0)
+    rubocop-rails (2.33.1)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
