@@ -4,6 +4,7 @@ import { defineConfig } from "wxt";
 export default defineConfig({
   manifest: {
     permissions: ["storage", "activeTab"],
+    options_ui: { page: "options/index.html" },
   },
   modules: ["@wxt-dev/module-solid"],
 });
