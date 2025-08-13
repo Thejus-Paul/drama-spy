@@ -1,7 +1,3 @@
-export const APP_URL: string = "https://drama-spy.neetodeployapp.com";
-
-export const API_V1_URL: string = `${APP_URL}/api/v1`;
-
 // Total 2 attempts as initial attempt + 1 retry
 export const RETRY_ATTEMPTS: number = 1;
 
