@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: ae614d3ea602395221648cfe5d1b086c79f0880e
+  revision: 430cff888c248eb45258c74953226edd3b4bae50
   branch: main
   specs:
     actionpack (8.1.0.alpha)
@@ -81,7 +81,7 @@ GEM
   specs:
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    alba (3.8.0)
+    alba (3.9.0)
     ast (2.4.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -202,22 +202,22 @@ GEM
       ffi (~> 1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.31.1)
+    google-protobuf (4.32.0)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-aarch64-linux-gnu)
+    google-protobuf (4.32.0-aarch64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-aarch64-linux-musl)
+    google-protobuf (4.32.0-aarch64-linux-musl)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-arm64-darwin)
+    google-protobuf (4.32.0-arm64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-x86_64-linux-gnu)
+    google-protobuf (4.32.0-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.31.1-x86_64-linux-musl)
+    google-protobuf (4.32.0-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
     heapy (0.2.0)
@@ -361,7 +361,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    rubocop-rails (2.33.2)
+    rubocop-rails (2.33.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -431,7 +431,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (3.1.4)
+    unicode-display_width (3.1.5)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
     uri (1.0.3)
