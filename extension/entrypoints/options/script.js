@@ -16,7 +16,7 @@ backendUrl
       urlInput.value = result;
     }
   })
-  .catch((error) => {
+  .catch(() => {
     // Only log error for debugging, not the actual value
     console.error("Failed to load settings");
     if (urlInput) {
@@ -35,7 +35,7 @@ if (saveBtn) {
       const value = urlInput.value;
       await backendUrl.setValue(value);
       showMessage("Settings saved!", "success");
-    } catch (error) {
+    } catch {
       console.error("Failed to save settings");
       showMessage("Failed to save settings!", "error");
     }
