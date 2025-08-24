@@ -1,10 +1,9 @@
 import { StatusEnum } from "../../types";
-import { SELECTORS } from "./constants";
+import { ONE_MINUTE_DELAY, SELECTORS } from "./constants";
 import {
   extractDramaInfo,
   normalizeUrlSlug,
   highlightEpisodes,
-  setupProgressMonitor,
   handleNewDrama,
   handleDramaUpdate,
   handleEpisodeProgress,
@@ -19,10 +18,6 @@ const dramaPage = async (retryCount: number = 0) => {
   }
 
   const { drama, episodes, dramaType } = dramaInfo;
-
-  if (retryCount === 0 || !document.querySelector(SELECTORS.footer)) {
-    setupProgressMonitor();
-  }
 
   if (!drama.name || !normalizeUrlSlug(drama.name)) return;
 
@@ -49,13 +44,22 @@ const dramaPage = async (retryCount: number = 0) => {
   if (!("lastWatchedEpisode" in watchedDrama)) return;
 
   await handleDramaUpdate({ watchedDrama, drama, dramaMetadata });
-  await handleEpisodeProgress({
-    watchedDrama,
-    drama,
-    currentEpisode,
-    dramaMetadata,
-    isTvSeries,
-  });
+
+  let isEpisodeUpdateAllowed = true;
+  setInterval(async () => {
+    const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
+    const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
+    if (isEpisodeUpdateAllowed && value >= 75) {
+      await handleEpisodeProgress({
+        watchedDrama,
+        drama,
+        currentEpisode,
+        dramaMetadata,
+        isTvSeries,
+      });
+      isEpisodeUpdateAllowed = false;
+    }
+  }, ONE_MINUTE_DELAY);
 
   if (!currentEpisode) currentEpisode = watchedDrama.lastWatchedEpisode;
   if (currentEpisode > 0) highlightEpisodes(episodes, currentEpisode);

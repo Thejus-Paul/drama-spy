@@ -1,11 +1,6 @@
 import { AiringStatusEnum, DramaShow, WatchStatusEnum } from "@/types";
 import { flattenObject, isEqual } from "es-toolkit";
-import {
-  INITIAL_DRAMA_DATA,
-  METADATA_KEYS,
-  ONE_MINUTE_DELAY,
-  SELECTORS,
-} from "./constants";
+import { INITIAL_DRAMA_DATA, METADATA_KEYS, SELECTORS } from "./constants";
 import messaging from "../messaging";
 import type {
   HandleEpisodeProgressParams,
@@ -147,16 +142,6 @@ const normalizeUrlSlug = (dramaName: string) => {
   return true;
 };
 
-const setupProgressMonitor = () => {
-  document.querySelector(SELECTORS.footer)?.remove();
-
-  setInterval(() => {
-    const seeker = document.querySelector<HTMLElement>(SELECTORS.seeker);
-    const value = parseFloat(seeker?.getAttribute("aria-valuetext") ?? "0");
-    if (value >= 75) messaging.sendMessage("up");
-  }, ONE_MINUTE_DELAY);
-};
-
 const handleNewDrama = async (params: HandleNewDramaParams) => {
   const { drama, currentEpisode, dramaMetadata } = params;
   const newDrama = {
@@ -215,7 +200,6 @@ export {
   highlightEpisodes,
   normalizeUrlSlug,
   objectDiff,
-  setupProgressMonitor,
   handleNewDrama,
   handleDramaUpdate,
   handleEpisodeProgress,
