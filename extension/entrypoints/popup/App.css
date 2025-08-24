@@ -1,0 +1,35 @@
+#root {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.drama-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.drama-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+}
+
+.drama-poster {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 0.5rem 0 0 0.5rem;
+  flex-shrink: 0;
+}
+
+.drama-content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 0.5rem;
+}
