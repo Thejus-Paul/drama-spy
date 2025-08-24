@@ -1,6 +1,6 @@
-import { storage } from '#imports';
+import { storage } from "#imports";
 
-export const backendUrl = storage.defineItem<string>('local:backend_url', {
+export const backendUrl = storage.defineItem<string>("local:backend_url", {
   fallback: "http://localhost:3000",
 });
 
