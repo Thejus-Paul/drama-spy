@@ -35,3 +35,7 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+extension/.wxt
+extension/.output
+extension/node_modules
