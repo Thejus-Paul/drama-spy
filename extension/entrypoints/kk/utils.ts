@@ -113,7 +113,10 @@ const extractDramaInfo = (): ExtractedDramaInfo | null => {
   const episodes = document.querySelectorAll<HTMLButtonElement>(
     SELECTORS.episodeButtons,
   );
-  drama.totalEpisodes = episodes.length;
+  const episodeNumbers = Array.from(episodes)
+    .map((episodeElement) => parseInt(episodeElement.innerText, 10))
+    .filter((episodeNumber) => Number.isFinite(episodeNumber) && episodeNumber > 0);
+  drama.totalEpisodes = episodeNumbers.length ? Math.max(...episodeNumbers) : 0;
 
   const metadata = document.querySelectorAll<HTMLSpanElement>(
     SELECTORS.metadata,
