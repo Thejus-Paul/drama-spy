@@ -12,7 +12,7 @@ plugins:
 #   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 3.3.5
+  TargetRubyVersion: 3.3
   NewCops: enable
 
 Layout/MultilineArrayBraceLayout:
@@ -25,6 +25,7 @@ Layout/MultilineMethodCallBraceLayout:
   EnforcedStyle: symmetrical
 
 Layout/LineLength:
+  Enabled: true
   Max: 100
 
 Metrics/AbcSize:
