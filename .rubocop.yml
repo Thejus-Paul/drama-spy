@@ -12,5 +12,50 @@ plugins:
 #   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 3.4
+  TargetRubyVersion: 3.3
   NewCops: enable
+
+Layout/MultilineArrayBraceLayout:
+  EnforcedStyle: symmetrical
+
+Layout/MultilineHashBraceLayout:
+  EnforcedStyle: symmetrical
+
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: symmetrical
+
+Layout/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 25
+
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - "test/**/*"
+
+Metrics/ClassLength:
+  Max: 100
+  Exclude:
+    - "test/**/*"
+    - "spec/**/*"
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ModuleLength:
+  Max: 100
+  Exclude:
+    - "test/**/*"
+
+Metrics/ParameterLists:
+  Max: 5
+  CountKeywordArgs: true
+
+Metrics/PerceivedComplexity:
+  Max: 12
