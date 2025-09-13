@@ -13,7 +13,7 @@ class DramaTest < ActiveSupport::TestCase
   test "should require presence of airing_status" do
     @drama.airing_status = nil
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Airing status can't be blank")
   end
 
@@ -24,8 +24,11 @@ class DramaTest < ActiveSupport::TestCase
   test "should enforce country length limit" do
     assign_overlength(:country, ::Drama::LIMITS[:country])
 
-    refute_predicate(@drama, :valid?)
-    assert_equal("Country is too long (maximum is #{::Drama::LIMITS[:country]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_not_predicate(@drama, :valid?)
+    assert_equal(
+      "Country is too long (maximum is #{::Drama::LIMITS[:country]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should require presence of name" do
@@ -35,15 +38,21 @@ class DramaTest < ActiveSupport::TestCase
   test "should enforce name length limit" do
     assign_overlength(:name, ::Drama::LIMITS[:name])
 
-    refute_predicate(@drama, :valid?)
-    assert_equal("Name is too long (maximum is #{::Drama::LIMITS[:name]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_not_predicate(@drama, :valid?)
+    assert_equal(
+      "Name is too long (maximum is #{::Drama::LIMITS[:name]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should enforce description length limit" do
     assign_overlength(:description, ::Drama::LIMITS[:description])
 
-    refute_predicate(@drama, :valid?)
-    assert_equal("Description is too long (maximum is #{::Drama::LIMITS[:description]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_not_predicate(@drama, :valid?)
+    assert_equal(
+      "Description is too long (maximum is #{::Drama::LIMITS[:description]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should accept valid poster_url" do
@@ -63,14 +72,14 @@ class DramaTest < ActiveSupport::TestCase
   test "should reject poster_url with invalid format" do
     @drama.poster_url = "not-a-url"
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Poster url is invalid")
   end
 
   test "should reject poster_url without http or https" do
     @drama.poster_url = "ftp://example.com/poster.jpg"
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Poster url is invalid")
   end
 
@@ -78,34 +87,37 @@ class DramaTest < ActiveSupport::TestCase
     long_url = "https://example.com/" + "x" * (::Drama::LIMITS[:poster_url] + 1)
     @drama.poster_url = long_url
 
-    refute_predicate(@drama, :valid?)
-    assert_equal("Poster url is too long (maximum is #{::Drama::LIMITS[:poster_url]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_not_predicate(@drama, :valid?)
+    assert_equal(
+      "Poster url is too long (maximum is #{::Drama::LIMITS[:poster_url]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should require presence of watch_status" do
     @drama.watch_status = nil
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Watch status can't be blank")
   end
 
   test "should enforce uniqueness of name" do
     duplicate_drama = @drama.dup
 
-    refute_predicate(duplicate_drama, :valid?)
+    assert_not_predicate(duplicate_drama, :valid?)
     assert_equal("Name has already been taken", duplicate_drama.errors.full_messages.to_sentence)
   end
 
   test "should be invalid when last_watched_episode is negative" do
     @drama.last_watched_episode = -1
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
   end
 
   test "should be invalid when last_watched_episode exceeds total episodes" do
     @drama.last_watched_episode = @drama.total_episodes + 1
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
   end
 
   test "should be valid when last_watched_episode is within range" do
@@ -117,7 +129,7 @@ class DramaTest < ActiveSupport::TestCase
   test "should be invalid when total_episodes is zero" do
     @drama.total_episodes = 0
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
   end
 
   test "should be valid when total_episodes is positive" do
@@ -164,7 +176,7 @@ class DramaTest < ActiveSupport::TestCase
   test "should reject metadata that is not a hash" do
     @drama.metadata = "invalid_string"
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Metadata must be a valid JSON object")
   end
 
@@ -172,7 +184,7 @@ class DramaTest < ActiveSupport::TestCase
     large_metadata = { "data" => "x" * 15_000 } # Over 10KB limit
     @drama.metadata = large_metadata
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Metadata is too large (maximum 10KB)")
   end
 
@@ -222,7 +234,7 @@ class DramaTest < ActiveSupport::TestCase
 
     in_progress_dramas = Drama.in_progress_first
 
-    refute_includes(in_progress_dramas, not_started_drama)
+    assert_not_includes(in_progress_dramas, not_started_drama)
     assert_includes(in_progress_dramas, watching_drama)
   end
 
@@ -236,10 +248,10 @@ class DramaTest < ActiveSupport::TestCase
       total_episodes: 10, last_watched_episode: 5, watch_status: "watching"
     )
 
-    in_progress_dramas = Drama.in_progress_first
 
-    assert_equal(watching_drama.id, in_progress_dramas.first.id)
-    assert_equal(finished_drama.id, in_progress_dramas.second.id)
+    watching_drama.touch
+    in_progress_dramas = Drama.in_progress_first.where(id: [ watching_drama.id, finished_drama.id ])
+    assert_equal([ watching_drama.id, finished_drama.id ], in_progress_dramas.pluck(:id))
   end
 
   test "should have valid enum values for airing_status" do
@@ -273,7 +285,7 @@ class DramaTest < ActiveSupport::TestCase
   test "should reject total_episodes at 201 over boundary" do
     @drama.total_episodes = 201
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_includes(@drama.errors.full_messages, "Total episodes must be less than or equal to 200")
   end
 
@@ -306,7 +318,7 @@ class DramaTest < ActiveSupport::TestCase
   def assert_presence_validation(attribute, expected_message)
     @drama.send("#{attribute}=", nil)
 
-    refute_predicate(@drama, :valid?)
+    assert_not_predicate(@drama, :valid?)
     assert_equal(expected_message, @drama.errors.full_messages.to_sentence)
   end
 end

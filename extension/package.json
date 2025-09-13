@@ -43,14 +43,14 @@
   },
   "pnpm": {
     "overrides": {
-      "is-interactive": "npm:@socketregistry/is-interactive@^1",
-      "is-unicode-supported": "npm:@socketregistry/is-unicode-supported@^1",
-      "isarray": "npm:@socketregistry/isarray@^1",
-      "object-assign": "npm:@socketregistry/object-assign@^1",
-      "safe-buffer": "npm:@socketregistry/safe-buffer@^1",
-      "shell-quote": "npm:shell-quote@^1",
-      "typedarray": "npm:@socketregistry/typedarray@^1"
+      "is-interactive": "npm:@socketregistry/is-interactive@^1.0.6",
+      "is-unicode-supported": "npm:@socketregistry/is-unicode-supported@^1.0.5",
+      "isarray": "npm:@socketregistry/isarray@^1.0.7",
+      "object-assign": "npm:@socketregistry/object-assign@^1.0.5",
+      "safe-buffer": "npm:@socketregistry/safe-buffer@^1.0.8",
+      "shell-quote": "npm:shell-quote@^1.8.3",
+      "typedarray": "npm:@socketregistry/typedarray@^1.0.7"
     }
   },
-  "packageManager": "pnpm@10.15.0+sha512.486ebc259d3e999a4e8691ce03b5cac4a71cbeca39372a9b762cb500cfdf0873e2cb16abe3d951b1ee2cf012503f027b98b6584e4df22524e0c7450d9ec7aa7b"
+  "packageManager": "pnpm@10.16.0+sha512.8066e7b034217b700a9a4dbb3a005061d641ba130a89915213a10b3ca4919c19c037bec8066afdc559b89635fdb806b16ea673f2468fbb28aabfa13c53e3f769"
 }

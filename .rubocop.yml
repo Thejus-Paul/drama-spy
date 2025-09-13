@@ -12,5 +12,71 @@ plugins:
 #   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 3.4
+  TargetRubyVersion: 3.3
   NewCops: enable
+
+Layout/MultilineArrayBraceLayout:
+  EnforcedStyle: symmetrical
+
+Layout/MultilineHashBraceLayout:
+  EnforcedStyle: symmetrical
+
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: symmetrical
+
+Layout/LineLength:
+  Enabled: true
+  Max: 100
+  Exclude:
+    - "db/schema.rb"
+    - "db/cache_schema.rb"
+    - "db/queue_schema.rb"
+    - "vendor/**/*"
+    - "bin/**/*"
+    - "tmp/**"
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 25
+
+Metrics/BlockLength:
+  Max: 30
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+    - regexp
+  Exclude:
+    - "test/**/*"
+    - "config/routes.rb"
+    - "db/migrate/**/*"
+    - "lib/tasks/**/*"
+
+Metrics/ClassLength:
+  Max: 100
+  Exclude:
+    - "test/**/*"
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/MethodLength:
+  Max: 20
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+    - string
+    - block
+
+Metrics/ModuleLength:
+  Max: 100
+  Exclude:
+    - "test/**/*"
+
+Metrics/ParameterLists:
+  Max: 5
+  CountKeywordArgs: true
+
+Metrics/PerceivedComplexity:
+  Max: 12

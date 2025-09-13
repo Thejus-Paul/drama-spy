@@ -4,5 +4,7 @@ require "bundler/setup"
 
 # Explicit RuboCop config increases performance slightly while avoiding config confusion.
 ARGV.unshift("--config", File.expand_path("../.rubocop.yml", __dir__))
+def development_env? = (ENV["RAILS_ENV"] || ENV["RACK_ENV"] || "development") == "development"
+ARGV.unshift("-A") if development_env?
 
 load Gem.bin_path("rubocop", "rubocop")
