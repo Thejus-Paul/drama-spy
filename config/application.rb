@@ -21,7 +21,8 @@ module DramaSpy
     # Remove middleware that are not needed for API only apps
     # Serves static files like images, CSS, and JS. Useless for pure APIs.
     config.middleware.delete ActionDispatch::Static
-    config.middleware.delete Rack::Sendfile # Sends files in the background. Useless for pure APIs.
+    # Enables X-Sendfile/Sendfile header support for front-ends; not needed for pure APIs.
+    config.middleware.delete Rack::Sendfile
     # Converts HEAD requests to GET internally. Often irrelevant if you’re not handling HEAD.
     config.middleware.delete Rack::Head
     # Handles HTTP caching headers. Fine to remove unless you're manually supporting these.
