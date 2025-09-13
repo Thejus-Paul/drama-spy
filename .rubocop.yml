@@ -27,6 +27,13 @@ Layout/MultilineMethodCallBraceLayout:
 Layout/LineLength:
   Enabled: true
   Max: 100
+  Exclude:
+    - "db/schema.rb"
+    - "db/cache_schema.rb"
+    - "db/queue_schema.rb"
+    - "vendor/**/*"
+    - "bin/**/*"
+    - "tmp/**"
 
 Metrics/AbcSize:
   Enabled: true
@@ -34,20 +41,33 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Max: 30
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+    - regexp
   Exclude:
     - "test/**/*"
+    - "config/routes.rb"
+    - "db/migrate/**/*"
+    - "lib/tasks/**/*"
 
 Metrics/ClassLength:
   Max: 100
   Exclude:
     - "test/**/*"
-    - "spec/**/*"
 
 Metrics/CyclomaticComplexity:
   Max: 10
 
 Metrics/MethodLength:
   Max: 20
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+    - string
+    - block
 
 Metrics/ModuleLength:
   Max: 100
