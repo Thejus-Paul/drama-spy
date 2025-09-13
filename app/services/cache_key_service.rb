@@ -5,6 +5,11 @@ class CacheKeyService
       .gsub(/[^\w\-.]/, "_").squeeze("_")        # Collapse multiple underscores
       .gsub(/^_|_$/, "")      # Remove leading/trailing underscores
       .downcase
-    "#{type}/#{sanitized_name}"
+    sanitized_type = type.to_s.strip
+      .gsub(/[^\w\-.]/, "_").squeeze("_")
+      .gsub(/^_|_$/, "")
+      .downcase
+    sanitized_name = "unknown" if sanitized_name.empty?
+    "#{sanitized_type}/#{sanitized_name}"
   end
 end
