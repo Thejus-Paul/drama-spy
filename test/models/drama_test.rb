@@ -25,7 +25,10 @@ class DramaTest < ActiveSupport::TestCase
     assign_overlength(:country, ::Drama::LIMITS[:country])
 
     assert_not_predicate(@drama, :valid?)
-    assert_equal("Country is too long (maximum is #{::Drama::LIMITS[:country]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal(
+      "Country is too long (maximum is #{::Drama::LIMITS[:country]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should require presence of name" do
@@ -36,14 +39,20 @@ class DramaTest < ActiveSupport::TestCase
     assign_overlength(:name, ::Drama::LIMITS[:name])
 
     assert_not_predicate(@drama, :valid?)
-    assert_equal("Name is too long (maximum is #{::Drama::LIMITS[:name]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal(
+      "Name is too long (maximum is #{::Drama::LIMITS[:name]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should enforce description length limit" do
     assign_overlength(:description, ::Drama::LIMITS[:description])
 
     assert_not_predicate(@drama, :valid?)
-    assert_equal("Description is too long (maximum is #{::Drama::LIMITS[:description]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal(
+      "Description is too long (maximum is #{::Drama::LIMITS[:description]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should accept valid poster_url" do
@@ -79,7 +88,10 @@ class DramaTest < ActiveSupport::TestCase
     @drama.poster_url = long_url
 
     assert_not_predicate(@drama, :valid?)
-    assert_equal("Poster url is too long (maximum is #{::Drama::LIMITS[:poster_url]} characters)", @drama.errors.full_messages.to_sentence)
+    assert_equal(
+      "Poster url is too long (maximum is #{::Drama::LIMITS[:poster_url]} characters)",
+      @drama.errors.full_messages.to_sentence
+    )
   end
 
   test "should require presence of watch_status" do

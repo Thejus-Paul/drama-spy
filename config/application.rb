@@ -19,14 +19,21 @@ module DramaSpy
     config.load_defaults 8.1
 
     # Remove middleware that are not needed for API only apps
-    config.middleware.delete ActionDispatch::Static # Serves static files like images, CSS, and JS. Useless for pure APIs.
+    # Serves static files like images, CSS, and JS. Useless for pure APIs.
+    config.middleware.delete ActionDispatch::Static
     config.middleware.delete Rack::Sendfile # Sends files in the background. Useless for pure APIs.
-    config.middleware.delete Rack::Head # Converts HEAD requests to GET internally. Often irrelevant if you’re not handling HEAD.
-    config.middleware.delete Rack::ConditionalGet # Handles HTTP caching headers. Fine to remove unless you're manually supporting these.
-    config.middleware.delete Rack::ETag # Handles HTTP caching headers. Fine to remove unless you're manually supporting these.
-    config.middleware.delete ActionDispatch::RemoteIp # Handles remote IP addresses. Fine to remove unless you're handling proxies.
-    config.middleware.delete ActiveRecord::Migration::CheckPending if Rails.env.production? # Checks for pending migrations.
-    config.middleware.delete ActionDispatch::HostAuthorization unless Rails.env.production? # Checks the host header.
+    # Converts HEAD requests to GET internally. Often irrelevant if you’re not handling HEAD.
+    config.middleware.delete Rack::Head
+    # Handles HTTP caching headers. Fine to remove unless you're manually supporting these.
+    config.middleware.delete Rack::ConditionalGet
+    # Handles HTTP caching headers. Fine to remove unless you're manually supporting these.
+    config.middleware.delete Rack::ETag
+    # Handles remote IP addresses. Fine to remove unless you're handling proxies.
+    config.middleware.delete ActionDispatch::RemoteIp
+    # Checks for pending migrations.
+    config.middleware.delete ActiveRecord::Migration::CheckPending if Rails.env.production?
+    # Checks the host header.
+    config.middleware.delete ActionDispatch::HostAuthorization unless Rails.env.production?
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
