@@ -67,9 +67,8 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update drama" do
-    patch(api_v1_drama_path(@drama), params: { drama: {
-      name: @drama.name, description: "An updated description."
-    } })
+    params = { drama: { name: @drama.name, description: "An updated description." } }
+    patch(api_v1_drama_path(@drama), params:)
 
     assert_response :ok
     assert_equal("success", json_body[:status])

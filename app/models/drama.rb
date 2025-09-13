@@ -14,8 +14,9 @@ class Drama < ApplicationRecord
     where.not(watch_status: :not_started).order(:watch_status, updated_at: :desc)
   }
 
-  enum :airing_status, %i[ upcoming ongoing completed ], default: :upcoming, validate: true
-  enum :watch_status, %i[ not_started watching finished ], default: :not_started, validate: true
+  enum :airing_status, { upcoming: 0, ongoing: 1, completed: 2 }, default: :upcoming, validate: true
+  enum :watch_status, { not_started: 0, watching: 1, finished: 2 }, default: :not_started,
+validate: true
 
   validates :airing_status, :country, :name, :watch_status, :total_episodes,
             :last_watched_episode, presence: true
