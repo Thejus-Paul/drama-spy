@@ -101,7 +101,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
   test "should cache individual drama on show requests" do
     Rails.cache.clear
 
-    assert_not Rails.cache.exist?("drama/#{@drama.name}")
+    assert_not Rails.cache.exist?(CacheKeyService.get_key(@drama.name, "drama"))
 
     get api_v1_drama_path(@drama.name)
     assert_response :ok
@@ -113,7 +113,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
 
   test "should clear cache after drama creation" do
     Rails.cache.write("drama_list", "cached_data")
-    Rails.cache.write("drama/#{@drama.name}", "cached_drama")
+    Rails.cache.write(CacheKeyService.get_key(@drama.name, "drama"), "cached_drama")
 
     post api_v1_dramas_path, params: { drama: {
       name: "Cache Clear Test", airing_status: "ongoing", country: "Korea",
@@ -126,7 +126,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
 
   test "should clear cache after drama update" do
     Rails.cache.write("drama_list", "cached_data")
-    Rails.cache.write("drama/#{@drama.name}", "cached_drama")
+    Rails.cache.write(CacheKeyService.get_key(@drama.name, "drama"), "cached_drama")
 
     patch api_v1_drama_path(@drama), params: { drama: {
       name: @drama.name, description: "Updated for cache test"
@@ -134,7 +134,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_nil(Rails.cache.read("drama_list"))
-    assert_nil(Rails.cache.read("drama/#{@drama.name}"))
+    assert_nil(Rails.cache.read(CacheKeyService.get_key(@drama.name, "drama")))
   end
 
   test "should return 404 when updating non-existent drama" do
