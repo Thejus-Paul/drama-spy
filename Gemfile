@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby "3.3.5"
+
 # Use main development branch of Rails
 gem "activemodel", github: "rails/rails", branch: "main"
 gem "activerecord", github: "rails/rails", branch: "main"

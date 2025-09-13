@@ -12,7 +12,7 @@ plugins:
 #   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 3.3
+  TargetRubyVersion: 3.3.5
   NewCops: enable
 
 Layout/MultilineArrayBraceLayout:
