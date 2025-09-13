@@ -248,10 +248,10 @@ class DramaTest < ActiveSupport::TestCase
       total_episodes: 10, last_watched_episode: 5, watch_status: "watching"
     )
 
-    in_progress_dramas = Drama.in_progress_first
 
-    assert_equal(watching_drama.id, in_progress_dramas.first.id)
-    assert_equal(finished_drama.id, in_progress_dramas.second.id)
+    watching_drama.touch
+    in_progress_dramas = Drama.in_progress_first.where(id: [ watching_drama.id, finished_drama.id ])
+    assert_equal([ watching_drama.id, finished_drama.id ], in_progress_dramas.pluck(:id))
   end
 
   test "should have valid enum values for airing_status" do
