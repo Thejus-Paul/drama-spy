@@ -5,7 +5,7 @@
   "scripts": {
     "build": "wxt build",
     "build:firefox": "wxt build -b firefox",
-    "compile": "tsc --noEmit",
+    "compile": "tsgo --noEmit",
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",
     "format": "prettier -c .",
@@ -38,6 +38,7 @@
     "ts-morph": "catalog:build",
     "tsx": "catalog:script",
     "typescript": "catalog:build",
+    "@typescript/native-preview": "catalog:build",
     "typescript-eslint": "catalog:build",
     "wxt": "catalog:build"
   },
@@ -52,5 +53,5 @@
       "typedarray": "npm:@socketregistry/typedarray@^1.0.7"
     }
   },
-  "packageManager": "pnpm@10.16.0+sha512.8066e7b034217b700a9a4dbb3a005061d641ba130a89915213a10b3ca4919c19c037bec8066afdc559b89635fdb806b16ea673f2468fbb28aabfa13c53e3f769"
+  "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
 }
