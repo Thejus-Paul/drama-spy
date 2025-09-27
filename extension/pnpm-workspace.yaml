@@ -3,14 +3,15 @@ catalogs:
     '@wxt-dev/module-solid': 1.1.4
     ts-morph: 27.0.0
     typescript: 5.9.2
-    typescript-eslint: 8.43.0
+    '@typescript/native-preview': 7.0.0-dev.20250927.1
+    typescript-eslint: 8.44.1
     wxt: 0.20.11
   frontend:
     solid-js: 1.9.9
   inlined:
     stats.js: 0.17.0
   lint:
-    eslint: 9.35.0
+    eslint: 9.36.0
     globals: 16.4.0
     prettier: 3.6.2
   prod:
@@ -21,7 +22,7 @@ catalogs:
     valibot: 1.1.0
   script:
     '@sinclair/typemap': 0.10.1
-    tsx: 4.20.5
+    tsx: 4.20.6
   types:
-    '@types/node': 24.3.3
+    '@types/node': 24.5.2
     '@types/stats.js': 0.17.4
