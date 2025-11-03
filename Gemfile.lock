@@ -60,7 +60,7 @@ GIT
 
 GIT
   remote: https://github.com/whitesmith/rubycritic.git
-  revision: 83983c31d2da7e592374d49684e337513d1390d6
+  revision: e441ce65c4bd17e5345fc0601f61c2407b2cf81d
   branch: main
   specs:
     rubycritic (4.10.0)
@@ -68,6 +68,7 @@ GIT
       flog (~> 4.7)
       launchy (>= 2.5.2)
       parser (>= 3.3.0.5)
+      prism (>= 1.6.0)
       rainbow (~> 3.1.1)
       reek (~> 6.5.0, < 7.0)
       rexml
