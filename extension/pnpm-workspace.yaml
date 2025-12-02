@@ -1,10 +1,10 @@
 catalogs:
   build:
-    '@typescript/native-preview': 7.0.0-dev.20251114.1
+    '@typescript/native-preview': 7.0.0-dev.20251201.1
     '@wxt-dev/module-solid': 1.1.4
     ts-morph: 27.0.2
     typescript: 5.9.3
-    typescript-eslint: 8.46.4
+    typescript-eslint: 8.48.0
     wxt: 0.20.11
   frontend:
     solid-js: 1.9.10
@@ -13,16 +13,16 @@ catalogs:
   lint:
     eslint: 9.39.1
     globals: 16.5.0
-    prettier: 3.6.2
+    prettier: 3.7.3
   prod:
     '@webext-core/messaging': 2.3.0
-    es-toolkit: 1.41.0
+    es-toolkit: 1.42.0
     stats.js: 0.17.0
     up-fetch: 2.5.0
-    valibot: 1.1.0
+    valibot: 1.2.0
   script:
     '@sinclair/typemap': 0.10.1
-    tsx: 4.20.6
+    tsx: 4.21.0
   types:
     '@types/node': 24.10.1
     '@types/stats.js': 0.17.4
