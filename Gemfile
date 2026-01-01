@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "3.4.7"
+ruby "4.0.0"
 
 # Use main development branch of Rails
 gem "activemodel", github: "rails/rails", branch: "main"
