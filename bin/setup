@@ -13,7 +13,17 @@ FileUtils.chdir APP_ROOT do
   # Add necessary setup steps to this file.
 
   puts "== Installing dependencies =="
-  system("bundle check") || system!("bundle install")
+  # Use Bundler CLI directly to avoid RubyGems path issues in Ruby 4.0.0
+  begin
+    require "bundler/cli"
+    begin
+      Bundler::CLI.start(["check"])
+    rescue StandardError
+      Bundler::CLI.start(["install"])
+    end
+  rescue LoadError
+    system("bundle check") || system!("bundle install")
+  end
 
   # puts "\n== Copying sample files =="
   # unless File.exist?("config/database.yml")
