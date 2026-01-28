@@ -63,7 +63,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # RuboCop plugin for thread safety
-  gem "rubocop-thread_safety", require: false
+  gem "rubocop-thread_safety"
 
   # RuboCop plugin for faker
   gem "rubocop-faker", require: false
