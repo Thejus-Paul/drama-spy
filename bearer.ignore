@@ -1,0 +1,56 @@
+{
+  "5feaf65408a0532629151874283faf36_0": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator class IS the security boundary; dirPath validated by isPathAllowed before fs access",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:26Z"
+  },
+  "5feaf65408a0532629151874283faf36_1": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator class IS the security boundary; dirPath validated by validateDirectory before fs access",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:28Z"
+  },
+  "5feaf65408a0532629151874283faf36_2": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator class IS the security boundary; filePath validated by isPathAllowed before fs access",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:29Z"
+  },
+  "5feaf65408a0532629151874283faf36_3": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator class IS the security boundary; dirPath derived from validated filePath",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:32Z"
+  },
+  "5feaf65408a0532629151874283faf36_4": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator class IS the security boundary; filePath validated by isPathAllowed before fs access",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:34Z"
+  },
+  "5feaf65408a0532629151874283faf36_5": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator class IS the security boundary; filePath validated by isPathAllowed before fs access",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:35Z"
+  },
+  "7d9a67e5f5aed14178bcfe7982555161_0": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator.isPathAllowed IS the path traversal prevention; resolve canonicalizes path before allowlist check",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:35Z"
+  },
+  "7d9a67e5f5aed14178bcfe7982555161_1": {
+    "author": "Thejus Paul",
+    "comment": "Resolving trusted allowlist directories configured at construction time",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:36Z"
+  },
+  "7d9a67e5f5aed14178bcfe7982555161_2": {
+    "author": "Thejus Paul",
+    "comment": "PathValidator.safeJoin validates all components before joining; result validated by isPathAllowed after",
+    "false_positive": true,
+    "ignored_at": "2026-02-26T18:50:37Z"
+  }
+}
