@@ -11,7 +11,7 @@ catalogs:
   inlined:
     stats.js: 0.17.0
   lint:
-    eslint: 10.0.2
+    eslint: 9.39.3
     globals: 17.3.0
     prettier: 3.8.1
   prod:
