@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+plugin "prebake"
+
 ruby "4.0.1"
 
 # Use main development branch of Rails
