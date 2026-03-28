@@ -26,7 +26,11 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development" \
     LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.2" \
     MALLOC_CONF="dirty_decay_ms:1000,narenas:2,background_thread:true" \
-    RUBY_YJIT_EXEC_MEM_SIZE="32"
+    RUBY_YJIT_EXEC_MEM_SIZE="32" \
+    RUBY_GC_HEAP_FREE_SLOTS_MIN_RATIO="0.20" \
+    RUBY_GC_HEAP_FREE_SLOTS_GOAL_RATIO="0.40" \
+    RUBY_GC_HEAP_FREE_SLOTS_MAX_RATIO="0.50" \
+    RUBY_GC_HEAP_GROWTH_FACTOR="1.1"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
