@@ -24,7 +24,8 @@ rss_after = `ps -o rss= -p #{Process.pid}`.strip.to_i
 rss_mb = rss_after / 1024.0
 
 gc_stat = GC.stat
-heap_pages = gc_stat[:heap_eden_pages] || gc_stat[:heap_available_slots]
+heap_pages = gc_stat[:heap_eden_pages]
+heap_slots = gc_stat[:heap_available_slots] || gc_stat[:heap_live_slots]
 total_objects = ObjectSpace.count_objects[:TOTAL]
 
 puts "---"
@@ -32,5 +33,6 @@ puts "rss_mb:          #{format('%.1f', rss_mb)}"
 puts "boot_seconds:    #{format('%.2f', time)}"
 puts "gc_count:        #{gc_stat[:count]}"
 puts "heap_pages:      #{heap_pages}"
+puts "heap_slots:      #{heap_slots}"
 puts "total_objects:    #{total_objects}"
 puts "rss_delta_kb:    #{rss_after - rss_before}"

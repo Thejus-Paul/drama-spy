@@ -24,9 +24,9 @@ ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development:test" \
-    LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.2" \
+    LD_PRELOAD="libjemalloc.so.2" \
     MALLOC_CONF="dirty_decay_ms:1000,muzzy_decay_ms:5000,narenas:2,background_thread:true" \
-    RUBY_YJIT_MEM_SIZE="32" \
+    RUBYOPT="--yjit-mem-size=32" \
     RUBY_GC_HEAP_FREE_SLOTS_MIN_RATIO="0.20" \
     RUBY_GC_HEAP_FREE_SLOTS_GOAL_RATIO="0.40" \
     RUBY_GC_HEAP_FREE_SLOTS_MAX_RATIO="0.50" \
