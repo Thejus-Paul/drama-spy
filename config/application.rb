@@ -4,6 +4,7 @@ require "rails"
 
 require "active_model/railtie"
 require "active_record/railtie"
+require "active_job/railtie"
 require "action_controller/railtie"
 require "rails/test_unit/railtie" unless Rails.env.production?
 
