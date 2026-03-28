@@ -16,14 +16,21 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_WITHOUT="development:test" \
+    LD_PRELOAD="libjemalloc.so.2" \
+    MALLOC_CONF="dirty_decay_ms:1000,muzzy_decay_ms:5000,narenas:2,background_thread:true" \
+    RUBYOPT="--yjit-mem-size=32" \
+    RUBY_GC_HEAP_FREE_SLOTS_MIN_RATIO="0.20" \
+    RUBY_GC_HEAP_FREE_SLOTS_GOAL_RATIO="0.40" \
+    RUBY_GC_HEAP_FREE_SLOTS_MAX_RATIO="0.50" \
+    RUBY_GC_HEAP_GROWTH_FACTOR="1.1"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
