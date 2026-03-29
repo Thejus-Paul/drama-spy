@@ -1,5 +1,8 @@
 # Drama model with validations for tracking watch progress and metadata
 class Drama < ApplicationRecord
+  LIST_CACHE_KEY = "drama_list"
+  CACHE_TYPE = "drama"
+
   LIMITS = {
     description: 2000,
     country: 50,
@@ -40,6 +43,7 @@ validate: true
   validate :last_watched_episode_valid, :metadata_valid
 
   before_save :update_watch_status
+  after_commit :invalidate_cache, on: %i[create update]
 
   private
 
@@ -59,6 +63,14 @@ validate: true
     else
       self.watch_status = :not_started
     end
+  end
+
+  def invalidate_cache
+    keys = [ LIST_CACHE_KEY, CacheKeyService.get_key(name, CACHE_TYPE) ]
+    if (old_name = name_previously_was)
+      keys << CacheKeyService.get_key(old_name, CACHE_TYPE)
+    end
+    Rails.cache.delete_multi(keys)
   end
 
   def metadata_valid
