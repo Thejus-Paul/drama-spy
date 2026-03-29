@@ -1,17 +1,13 @@
 # Handles API endpoints for drama management (list, show, create, update)
 class Api::V1::DramasController < ApplicationController
-  LIST_CACHE_KEY = "drama_list"
-
-  before_action :clear_cache, only: %i[create update]
-
   def index
-    dramas = Rails.cache.fetch(LIST_CACHE_KEY, expires_in: 1.week) { Drama.in_progress_first.load }
+    dramas = Rails.cache.fetch(Drama::LIST_CACHE_KEY, expires_in: 1.week) { Drama.in_progress_first.load }
 
     render_json(Drama::IndexResource.new(dramas))
   end
 
   def show
-    cache_key = CacheKeyService.get_key(name, "drama")
+    cache_key = CacheKeyService.get_key(name, Drama::CACHE_TYPE)
     drama = Rails.cache.fetch(cache_key, expires_in: 1.year) { Drama.find_by(name:) }
 
     render_error("Drama not found", status: :not_found) and return unless drama
@@ -36,11 +32,6 @@ class Api::V1::DramasController < ApplicationController
   end
 
   private
-
-  def clear_cache
-    cache_keys = [ LIST_CACHE_KEY, CacheKeyService.get_key(name, "drama") ]
-    cache_keys.each { |key| Rails.cache.delete(key) }
-  end
 
   def name = params[:name] || drama_params[:name]
 
