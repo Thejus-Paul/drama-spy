@@ -10,6 +10,9 @@ gem "activerecord", github: "rails/rails", branch: "main"
 gem "activejob", github: "rails/rails", branch: "main"
 gem "actionpack", github: "rails/rails", branch: "main"
 
+# Required as an explicit dependency since Ruby 4.0 removed it from the standard library
+gem "bigdecimal"
+
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", ">= 2.1"
 # Use the Puma web server [https://github.com/puma/puma]
