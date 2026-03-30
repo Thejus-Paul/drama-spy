@@ -43,7 +43,7 @@ validate: true
   validate :last_watched_episode_valid, :metadata_valid
 
   before_save :update_watch_status
-  after_commit :invalidate_cache, on: %i[create update]
+  after_commit :invalidate_cache, on: %i[create update destroy]
 
   private
 
