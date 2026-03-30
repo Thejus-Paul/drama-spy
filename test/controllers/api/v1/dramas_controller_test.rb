@@ -88,7 +88,7 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     Rails.cache.clear
 
     # Ensure cache is being used by mocking the fetch behavior
-    assert_not Rails.cache.exist?("drama_list")
+    assert_not Rails.cache.exist?(Drama::LIST_CACHE_KEY)
 
     get api_v1_dramas_path
     assert_response :ok
@@ -136,7 +136,6 @@ class Api::V1::DramasControllerTest < ActionDispatch::IntegrationTest
     assert_nil(Rails.cache.read(Drama::LIST_CACHE_KEY))
     assert_nil(Rails.cache.read(CacheKeyService.get_key(@drama.name, Drama::CACHE_TYPE)))
   end
-
 
   test "should return 404 when updating non-existent drama" do
     # Test that the controller properly handles non-existent drama
