@@ -73,29 +73,6 @@ jobs:
         env:
           PREBAKE_LOG_LEVEL: debug
 
-      - name: Debug bigdecimal
-        if: always()
-        run: |
-            echo "=== bigdecimal gem location ==="
-            bundle show bigdecimal
-
-            echo "=== extension dir ==="
-            bundle exec ruby -e "
-              spec = Gem::Specification.find_by_name('bigdecimal')
-              puts \"extension_dir: #{spec.extension_dir}\"
-              puts \"gem_build_complete: #{File.exist?(spec.gem_build_complete_path)}\"
-              if File.directory?(spec.extension_dir)
-                Dir.glob(File.join(spec.extension_dir, '**/*')).each do |f|
-                  puts \"  #{f} (#{File.size(f)} bytes)\"
-                end
-              else
-                puts 'extension_dir DOES NOT EXIST'
-              end
-            "
-
-            echo "=== require test ==="
-            bundle exec ruby -e "require 'bigdecimal'; puts BigDecimal(1)" 2>&1 || true
-
       - name: Run tests
         env:
           RAILS_ENV: test
