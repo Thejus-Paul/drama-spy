@@ -70,6 +70,8 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+        env:
+          PREBAKE_LOG_LEVEL: debug
 
       - name: Run tests
         env:
