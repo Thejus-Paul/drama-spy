@@ -6,15 +6,15 @@
 #
 # Usage: RAILS_ENV=development bundle exec ruby bin/measure_memory
 
-require "benchmark"
-
 ENV["RAILS_ENV"] ||= "development"
 
 rss_before = `ps -o rss= -p #{Process.pid}`.strip.to_i
 
-time = Benchmark.realtime do
-  require_relative "../config/environment"
-end
+# Use a monotonic clock instead of the `benchmark` gem, which Ruby 4.0 dropped
+# from the default gems and which this app does not otherwise depend on.
+started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+require_relative "../config/environment"
+time = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at
 
 # Force a GC to get stable readings
 GC.start(full_mark: true, immediate_sweep: true)
