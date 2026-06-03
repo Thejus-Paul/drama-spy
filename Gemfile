@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 plugin "prebake"
 
-ruby "4.0.1"
+ruby "4.0.5"
 
 # Use main development branch of Rails
 gem "activemodel", github: "rails/rails", branch: "main"
