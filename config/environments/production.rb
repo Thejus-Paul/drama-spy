@@ -9,6 +9,13 @@ Rails.application.configure do
   # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
   config.eager_load = true
 
+  # This is an API-only app and Alba handles all serialization, so ActionView is
+  # never used at runtime. `action_controller/railtie` hard-requires it, but we
+  # can drop it from the eager-load set so its many helper/template constants are
+  # not instantiated on boot, trimming runtime memory.
+  config.eager_load_namespaces.delete(ActionView)
+  config.eager_load_namespaces.delete(ActionView::Railtie)
+
   # Full error reports are disabled.
   config.consider_all_requests_local = false
 
